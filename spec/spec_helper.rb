@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "pry"
 require "giact_verification"
 
 RSpec.configure do |config|
