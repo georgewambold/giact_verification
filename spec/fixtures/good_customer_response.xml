@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <PostInquiryResponse xmlns="http://api.giact.com/verificationservices/v5">
+      <PostInquiryResult>
+        <ItemReferenceId>5000001888</ItemReferenceId>
+        <CreatedDate>2017-02-03T11:35:43.242182-06:00</CreatedDate>
+        <VerificationResponse>Pass</VerificationResponse>
+        <AccountResponseCode>_1111</AccountResponseCode>
+        <BankName>WELLS FARGO BANK NA (ARIZONA)</BankName>
+        <AccountAddedDate>2008-04-09T00:00:00</AccountAddedDate>
+        <AccountLastUpdatedDate>2010-06-23T00:00:00</AccountLastUpdatedDate>
+        <AccountClosedDate xsi:nil="true" />
+        <FundsConfirmationResult xsi:nil="true" />
+        <CustomerResponseCode>CA11</CustomerResponseCode>
+      </PostInquiryResult>
+    </PostInquiryResponse>
+  </soap:Body>
+</soap:Envelope>
