@@ -15,5 +15,4 @@ class Configuration
   def invalid?
     api_username.nil? || api_password.nil?
   end
-
 end

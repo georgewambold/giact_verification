@@ -64,6 +64,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to name_prefix if name_prefix is invalid' do
+        params = minimum_customer_params.merge({ name_prefix: 'count' })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:name_prefix)
+      end
+    end
   end
 
   context 'first_name' do
@@ -105,6 +115,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(false)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to first_name if first_name is invalid' do
+        params = minimum_customer_params.merge({ first_name: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:first_name)
+      end
     end
   end
 
@@ -149,6 +169,15 @@ describe CustomerValidator do
       expect(validator.success?).to be(false)
     end
 
+    context 'error messages' do
+      it 'returns errors related to middle_name if middle_name is invalid' do
+        params = minimum_customer_params.merge({ middle_name: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:middle_name)
+      end
+    end
   end
 
   context 'last_name' do
@@ -200,6 +229,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to last_name if last_name is invalid' do
+        params = minimum_customer_params.merge({ last_name: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:last_name)
+      end
+    end
   end
 
   context 'name_suffix' do
@@ -241,6 +280,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(false)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to name_suffix if name_suffix is invalid' do
+        params = minimum_customer_params.merge({ name_suffix: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:name_suffix)
+      end
     end
   end
 
@@ -293,6 +342,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to address_line_1 if address_line_1 is invalid' do
+        params = minimum_customer_params.merge({ address_line_1: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:address_line_1)
+      end
+    end
   end
 
   context 'address_line_2' do
@@ -335,6 +394,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to address_line_2 if address_line_2 is invalid' do
+        params = minimum_customer_params.merge({ address_line_2: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:address_line_2)
+      end
+    end
   end
 
   context 'city' do
@@ -370,7 +439,6 @@ describe CustomerValidator do
       expect(validator.success?).to be(true)
     end
 
-
     it 'can be 25 characters' do
       params = minimum_customer_params.merge({ city: ('-' * 25) })
 
@@ -386,11 +454,22 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to city if city is invalid' do
+        params = minimum_customer_params.merge({ city: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:city)
+      end
+    end
   end
 
   context 'state' do
     it 'can\'t be nil' do
       params = minimum_customer_params.merge({ state: nil })
+
 
       validator = CustomerValidator.call(params)
 
@@ -426,6 +505,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(true)
     end
+
+    context 'error messages' do
+      it 'returns errors related to state if state is invalid' do
+        params = minimum_customer_params.merge({ state: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:state)
+      end
+    end
   end
 
   context 'zip_code' do
@@ -436,6 +525,7 @@ describe CustomerValidator do
 
 
       expect(validator.success?).to be(false)
+
     end
 
     it 'can\'t be a blank string ' do
@@ -533,6 +623,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to zip_code if zip_code is invalid' do
+        params = minimum_customer_params.merge({ zip_code: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:zip_code)
+      end
+    end
   end
 
   context 'country' do
@@ -571,6 +671,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to country if country is invalid' do
+        params = minimum_customer_params.merge({ country: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:country)
+      end
     end
   end
 
@@ -629,6 +739,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to phone_number if phone_number is invalid' do
+        params = minimum_customer_params.merge({ phone_number: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:phone_number)
+      end
     end
   end
 
@@ -720,6 +840,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to tax_id if tax_id is invalid' do
+        params = minimum_customer_params.merge({ tax_id: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:tax_id)
+      end
+    end
   end
 
   context 'date_of_birth' do
@@ -779,6 +909,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(true)
     end
+
+    context 'error messages' do
+      it 'returns errors related to date_of_birth if date_of_birth is invalid' do
+        params = minimum_customer_params.merge({ date_of_birth: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:date_of_birth)
+      end
+    end
   end
 
   context 'drivers_license_number' do
@@ -837,6 +977,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(true)
     end
+
+    context 'error messages' do
+      it 'returns errors related to drivers_license_number if drivers_license_number is invalid' do
+        params = minimum_customer_params.merge({ drivers_license_number: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:drivers_license_number)
+      end
+    end
   end
 
   context 'drivers_license_state' do
@@ -875,6 +1025,19 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to drivers_license_state if drivers_license_state is invalid' do
+        allow(GiactVerification).to receive(:servicing?)
+          .and_return(false)
+
+        params = minimum_customer_params.merge({ drivers_license_state: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:drivers_license_state)
+      end
     end
   end
 
@@ -918,6 +1081,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to email_address if email_address is invalid' do
+        params = minimum_customer_params.merge({ email_address: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:email_address)
+      end
+    end
   end
 
   context 'ip_address' do
@@ -960,6 +1133,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to ip_address if ip_address is invalid' do
+        params = minimum_customer_params.merge({ ip_address: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:ip_address)
+      end
+    end
   end
 
   context 'mobile_consent_record_id' do
@@ -993,6 +1176,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to mobile_consent_record_id if mobile_consent_record_id is invalid' do
+        params = minimum_customer_params.merge({ mobile_consent_record_id: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:mobile_consent_record_id)
+      end
     end
   end
 
@@ -1030,6 +1223,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to alternative_id_type if alternative_id_type is invalid' do
+        params = minimum_customer_params.merge({ alternative_id_type: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:alternative_id_type)
+      end
     end
   end
 
@@ -1081,6 +1284,16 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to alternative_id_issuer if alternative_id_issuer is invalid' do
+        params = minimum_customer_params.merge({ alternative_id_issuer: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:alternative_id_issuer)
+      end
+    end
   end
 
   context 'alternative_id_number' do
@@ -1130,6 +1343,16 @@ describe CustomerValidator do
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(false)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to alternative_id_number if alternative_id_number is invalid' do
+        params = minimum_customer_params.merge({ alternative_id_number: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:alternative_id_number)
+      end
     end
   end
 
@@ -1181,6 +1404,15 @@ describe CustomerValidator do
 
       expect(validator.success?).to be(false)
     end
+
+    context 'error messages' do
+      it 'returns errors related to domain if domain is invalid' do
+        params = minimum_customer_params.merge({ domain: 'X' * 1000 })
+
+        validator = CustomerValidator.call(params)
+
+        expect(validator.messages.keys).to include(:domain)
+      end
+    end
   end
 end
-

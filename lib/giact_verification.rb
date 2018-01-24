@@ -1,11 +1,3 @@
-require "giact_verification/version"
-require "giact_verification/configuration"
-require "giact_verification/authenticate"
-require "giact_verification/response"
-require "giact_verification/errors"
-require "giact_verification/validators/customer_validator"
-require "giact_verification/validators/check_validator"
-
 module GiactVerification
   def self.configuration
     @configuration ||= Configuration.new
@@ -13,6 +5,14 @@ module GiactVerification
 
   def self.configure
     yield configuration
+  end
+
+  def self.ready_for_request?
+    if configuration.invalid?
+      raise ConfigurationError
+    else
+      return true
+    end
   end
 
   def self.servicing?(state)
@@ -35,3 +35,11 @@ module GiactVerification
     File.dirname __dir__
   end
 end
+
+require "giact_verification/version"
+require "giact_verification/configuration"
+require "giact_verification/authenticate"
+require "giact_verification/response"
+require "giact_verification/errors"
+require "giact_verification/validators/customer_validator"
+require "giact_verification/validators/check_validator"

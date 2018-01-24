@@ -1,0 +1,32 @@
+en:
+  errors:
+    serviced_state?:
+      arg:
+        default: 'must be a serviced US state or Canadian province (this includes all US states or CA provinces)'
+    serviced_country?:
+      arg:
+        default: 'must be a serviced country (US or CA)'
+    postal_code?:
+      arg:
+        default: 'must be a valid US (5 or 10 digit) or Canadian (7 digit) zip/postal code with no dashes or white space'
+    phone_number_length?:
+      arg:
+        default: 'length must be 10 digits with no dashes or whitespace'
+    phone_number_format?:
+      arg:
+        default: 'length must be 10 digits with 1-9 as the first digit (matching this regex: /[1-9][0-9]{9}/)'
+    last_four_ssn_length?:
+      arg:
+        default: 'length must 4 digits with no dashes or white space'
+    ssn_or_ein_length?:
+      arg:
+        default: 'length must 9 digits with no dashes or white space'
+    respond_to_strftime?:
+      arg:
+        default: "must be an object that responds to the method ':strftime'"
+    drivers_license_length?:
+      arg:
+        default: "length must be between 1-28 characters"
+    accepted_alternative_id?:
+      arg:
+        default: "id type must be one of the accepted alternative ids (UsaMilitaryId, UsaStateId, PassportUsa, PassportForeign, UsaResidentAlienId, StudentId, TribalId, DlCanada, DlMexico, or OtherForeignId)"

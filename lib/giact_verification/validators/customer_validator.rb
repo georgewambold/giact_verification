@@ -3,6 +3,8 @@ require 'dry-validation'
 CustomerValidator = Dry::Validation.Schema do
 
   configure do
+    config.messages_file = File.join(GiactVerification.root, 'customer_validator_errors.yml')
+
     def serviced_state?(state)
       GiactVerification.servicing?(state)
     end
@@ -12,9 +14,7 @@ CustomerValidator = Dry::Validation.Schema do
     end
 
     def postal_code?(value)
-      length = value.to_s.length
-
-      length == 5 || length == 7 || length == 10
+      [5, 7, 10].include?(value.to_s.length)
     end
 
     def phone_number_format?(value)
@@ -71,4 +71,3 @@ CustomerValidator = Dry::Validation.Schema do
   optional(:alternative_id_number)    { none? | (str? & size?(1..50)) }
   optional(:domain)                   { none? | (str? & size?(1..100)) }
 end
-
