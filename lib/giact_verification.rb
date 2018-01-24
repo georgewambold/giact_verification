@@ -27,6 +27,10 @@ module GiactVerification
     configuration.valid_alternative_id_types.include?(id_type)
   end
 
+  def self.valid_account_type?(account_type)
+    configuration.valid_account_types.include?(account_type)
+  end
+
   def self.root
     File.dirname __dir__
   end

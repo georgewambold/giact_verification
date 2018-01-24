@@ -59,4 +59,20 @@ RSpec.describe GiactVerification do
       expect(GiactVerification.accepts_id_type?('passport')).to eq(true)
     end
   end
+
+  describe '.valid_account_type?' do
+    it 'returns false for countries not in the configuration' do
+      allow(GiactVerification).to receive(:configuration)
+        .and_return(instance_double(Configuration, valid_account_types: ['high_yield', 'biz_checking']))
+
+      expect(GiactVerification.valid_account_type?('401k')).to eq(false)
+    end
+
+    it 'returns true for id types in the configuration' do
+      allow(GiactVerification).to receive(:configuration)
+        .and_return(instance_double(Configuration, valid_account_types: ['high_yield', 'biz_checking']))
+
+      expect(GiactVerification.valid_account_type?('high_yield')).to eq(true)
+    end
+  end
 end
