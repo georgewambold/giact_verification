@@ -27,33 +27,67 @@ describe 'making a gAuthenticate request' do
     reset_config!
   end
 
-  it 'returns a response object when passed valid arguments' do
-    GiactVerification.configure do |config|
-      config.api_username = 'georgew'
-      config.api_password = '98pasdf'
+  context 'successful' do
+    it 'returns a response object when passed valid arguments' do
+      GiactVerification.configure do |config|
+        config.api_username = 'georgew'
+        config.api_password = '98pasdf'
+      end
+      valid_check_params = {
+        routing_number: '123456789',
+        account_number: '000011',
+      }
+      valid_customer_params = {
+        first_name: 'Bad',
+        last_name: 'Request',
+        address_line_1: '123 Test Dr.',
+        city: 'Melrose',
+        state: 'MA',
+        zip_code: '10023',
+        phone_number: '1234567890',
+        tax_id: '111003333',
+        date_of_birth: Date.parse('sept 1 1961'),
+        drivers_license_number: 'MC1234567',
+        drivers_license_state: 'MA',
+      }
+
+      expect {
+        response = GiactVerification::Authenticate.call(customer: valid_customer_params, check: valid_check_params)
+      }.to raise_error(GiactVerification::ApiError)
+
+      reset_config!
     end
-    valid_check_params    = {
-      routing_number: '123456789',
-      account_number: '000011'
-    }
-    valid_customer_params = {
-      first_name: 'Kent',
-      last_name: 'Beck',
-      address_line_1: '123 Test Dr.',
-      city: 'Melrose',
-      state: 'MA',
-      zip_code: '10023',
-      phone_number: '1234567890',
-      tax_id: '111003333',
-      date_of_birth: Date.parse('sept 1 1961'),
-      drivers_license_number: 'MC1234567',
-      drivers_license_state: 'MA',
-    }
+  end
 
-    response = GiactVerification::Authenticate.call(customer: valid_customer_params, check: valid_check_params)
+  context 'unsuccessful' do
+    it 'returns a response object when passed valid arguments' do
+      GiactVerification.configure do |config|
+        config.api_username = 'georgew'
+        config.api_password = '98pasdf'
+      end
+      valid_check_params = {
+        routing_number: '123456789',
+        account_number: '000011',
+      }
+      valid_customer_params = {
+        first_name: 'Kent',
+        last_name: 'Beck',
+        address_line_1: '123 Test Dr.',
+        city: 'Melrose',
+        state: 'MA',
+        zip_code: '10023',
+        phone_number: '1234567890',
+        tax_id: '111003333',
+        date_of_birth: Date.parse('sept 1 1961'),
+        drivers_license_number: 'MC1234567',
+        drivers_license_state: 'MA',
+      }
 
-    expect(response).to be_a(GiactVerification::Response)
+      response = GiactVerification::Authenticate.call(customer: valid_customer_params, check: valid_check_params)
 
-    reset_config!
+      expect(response.body).to eq({ verification_response: 'pass', customer_response_code: 'CA11' })
+
+      reset_config!
+    end
   end
 end
