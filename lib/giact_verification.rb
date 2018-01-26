@@ -34,12 +34,18 @@ module GiactVerification
   def self.root
     File.dirname __dir__
   end
+
+  def self.template_directory
+    File.join(root, 'lib', 'giact_verification', 'templates')
+  end
 end
 
 require "giact_verification/version"
 require "giact_verification/configuration"
 require "giact_verification/authenticate"
 require "giact_verification/response"
+require "giact_verification/request"
 require "giact_verification/errors"
+require "giact_verification/template_renderer"
 require "giact_verification/validators/customer_validator"
 require "giact_verification/validators/check_validator"

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header>
+    <AuthenticationHeader xmlns="http://api.giact.com/verificationservices/v5">
+      <ApiUsername><%= GiactVerification.configuration.api_username %></ApiUsername>
+      <ApiPassword><%= GiactVerification.configuration.api_password %></ApiPassword>
+    </AuthenticationHeader>
+  </soap:Header>
+  <soap:Body>
+    <PostInquiry xmlns="http://api.giact.com/verificationservices/v5">
+      <Inquiry>
+        <GAuthenticateEnabled>true</GAuthenticateEnabled>
+        <UniqueId>Sample 10</UniqueId>
+        <Check>
+          <RoutingNumber>122105278</RoutingNumber>
+          <AccountNumber>0000000016</AccountNumber>
+          <AccountType>Checking</AccountType>
+        </Check>
+        <Customer>
+          <FirstName>Jane</FirstName>
+          <LastName>Doe</LastName>
+          <AddressLine1>5805 Blue Spruce Ln</AddressLine1>
+          <City>McKinney</City>
+          <State>TX</State>
+          <ZipCode>75070</ZipCode>
+          <Country>US</Country>
+          <PhoneNumber>9725551212</PhoneNumber>
+          <TaxId>123456777</TaxId>
+          <DateOfBirth>1972-08-04</DateOfBirth>
+          <DlNumber>1231231234</DlNumber>
+          <DlState>TX</DlState>
+        </Customer>
+      </Inquiry>
+    </PostInquiry>
+  </soap:Body>
+</soap:Envelope>
