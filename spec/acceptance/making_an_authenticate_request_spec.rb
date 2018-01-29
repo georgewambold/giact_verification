@@ -27,8 +27,8 @@ describe 'making a gAuthenticate request' do
     reset_config!
   end
 
-  context 'successful' do
-    it 'returns a response object when passed valid arguments' do
+  context 'unsuccessful' do
+    xit 'raises an error when the api request fails' do
       GiactVerification.configure do |config|
         config.api_username = 'georgew'
         config.api_password = '98pasdf'
@@ -59,7 +59,7 @@ describe 'making a gAuthenticate request' do
     end
   end
 
-  context 'unsuccessful' do
+  context 'successful' do
     it 'returns a response object when passed valid arguments' do
       GiactVerification.configure do |config|
         config.api_username = 'georgew'
