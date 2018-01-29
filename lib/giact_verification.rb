@@ -1,4 +1,5 @@
 module GiactVerification
+
   def self.configuration
     @configuration ||= Configuration.new
   end
@@ -7,28 +8,24 @@ module GiactVerification
     yield configuration
   end
 
+  # This is class level method delegation -- Really unpleasant.
+  class << self
+    extend Forwardable
+
+    def_delegators :configuration,
+      :servicing_country?,
+      :servicing?,
+      :supports_request_type?,
+      :accepts_id_type?,
+      :valid_account_type?
+  end
+
   def self.ready_for_request?
     if configuration.invalid?
       raise ConfigurationError
     else
       return true
     end
-  end
-
-  def self.servicing?(state)
-    configuration.serviced_states.include?(state)
-  end
-
-  def self.servicing_country?(country)
-    configuration.serviced_countries.include?(country)
-  end
-
-  def self.accepts_id_type?(id_type)
-    configuration.valid_alternative_id_types.include?(id_type)
-  end
-
-  def self.valid_account_type?(account_type)
-    configuration.valid_account_types.include?(account_type)
   end
 
   def self.root
@@ -45,6 +42,8 @@ require "giact_verification/configuration"
 require "giact_verification/authenticate"
 require "giact_verification/response"
 require "giact_verification/request"
+require "giact_verification/request_handler"
+require "giact_verification/xml_to_hash"
 require "giact_verification/errors"
 require "giact_verification/template_renderer"
 require "giact_verification/template_filepath"

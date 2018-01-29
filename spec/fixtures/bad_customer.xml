@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <PostInquiryResponse xmlns="http://api.giact.com/verificationservices/v5">
+      <PostInquiryResult>
+        <ItemReferenceId>5000001888</ItemReferenceId>
+        <VerificationResponse>Declined</VerificationResponse>
+        <AccountResponseCode>GN05</AccountResponseCode>
+        <AccountClosedDate xsi:nil="true" />
+        <FundsConfirmationResult xsi:nil="true" />
+        <CustomerResponseCode>CA01</CustomerResponseCode>
+      </PostInquiryResult>
+    </PostInquiryResponse>
+  </soap:Body>
+</soap:Envelope>

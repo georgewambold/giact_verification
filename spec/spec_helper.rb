@@ -4,6 +4,13 @@ require 'giact_verification'
 require 'webmock/rspec'
 require 'support/fake_giact'
 
+def set_config!
+  GiactVerification.configure do |config|
+    config.api_username = 'user'
+    config.api_password = 'pass'
+  end
+end
+
 def reset_config!
   GiactVerification.instance_variable_set(:@configuration, nil)
 end

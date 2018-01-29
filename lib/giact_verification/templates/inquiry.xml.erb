@@ -9,27 +9,137 @@
   <soap:Body>
     <PostInquiry xmlns="http://api.giact.com/verificationservices/v5">
       <Inquiry>
-        <GAuthenticateEnabled>true</GAuthenticateEnabled>
-        <UniqueId>Sample 10</UniqueId>
-        <Check>
-          <RoutingNumber>122105278</RoutingNumber>
-          <AccountNumber>0000000016</AccountNumber>
-          <AccountType>Checking</AccountType>
-        </Check>
-        <Customer>
-          <FirstName>Jane</FirstName>
-          <LastName>Doe</LastName>
-          <AddressLine1>5805 Blue Spruce Ln</AddressLine1>
-          <City>McKinney</City>
-          <State>TX</State>
-          <ZipCode>75070</ZipCode>
-          <Country>US</Country>
-          <PhoneNumber>9725551212</PhoneNumber>
-          <TaxId>123456777</TaxId>
-          <DateOfBirth>1972-08-04</DateOfBirth>
-          <DlNumber>1231231234</DlNumber>
-          <DlState>TX</DlState>
-        </Customer>
+        <% if @substitutions[:unique_id] %>
+          <UniqueId><%= @substitutions[:unique_id] %></UniqueId>
+        <% end %>
+        <% if @substitutions[:g_verify_enabled] %>
+          <GVerifyEnabled><%= @substitutions[:g_verify_enabled] %></GVerifyEnabled>
+        <% end %>
+        <% if @substitutions[:funds_confirmation_enabled] %>
+          <FundsConfirmationEnabled><%= @substitutions[:funds_confirmation_enabled] %></FundsConfirmationEnabled>
+        <% end %>
+        <% if @substitutions[:g_authenticate_enabled] %>
+          <GAuthenticateEnabled><%= @substitutions[:g_authenticate_enabled] %></GAuthenticateEnabled>
+        <% end %>
+        <% if @substitutions[:voided_check_image_enabled] %>
+          <VoidedCheckImageEnabled><%= @substitutions[:voided_check_image_enabled] %></VoidedCheckImageEnabled>
+        <% end %>
+        <% if @substitutions[:g_identify_enabled] %>
+          <GIdentifyEnabled><%= @substitutions[:g_identify_enabled] %></GIdentifyEnabled>
+        <% end %>
+        <% if @substitutions[:customer_id_enabled] %>
+          <CustomerIdEnabled><%= @substitutions[:customer_id_enabled] %></CustomerIdEnabled>
+        <% end %>
+        <% if @substitutions[:ofac_scan_enabled] %>
+          <OfacScanEnabled><%= @substitutions[:ofac_scan_enabled] %></OfacScanEnabled>
+        <% end %>
+        <% if @substitutions[:g_identify_esi_enabled] %>
+          <GIdentifyEsiEnabled><%= @substitutions[:g_identify_esi_enabled] %></GIdentifyEsiEnabled>
+        <% end %>
+        <% if @substitutions[:ip_address_information_enabled] %>
+          <IpAddressInformationEnabled><%= @substitutions[:ip_address_information_enabled] %></IpAddressInformationEnabled>
+        <% end %>
+        <% if @substitutions[:domain_whois_enabled] %>
+          <DomainWhoisEnabled><%= @substitutions[:domain_whois_enabled] %></DomainWhoisEnabled>
+        <% end %>
+        <% if @substitutions[:mobile_verify_enabled] %>
+          <MobileVerifyEnabled><%= @substitutions[:mobile_verify_enabled] %></MobileVerifyEnabled>
+        <% end %>
+        <% if @substitutions[:mobile_identify_enabled] %>
+          <MobileIdentifyEnabled><%= @substitutions[:mobile_identify_enabled] %></MobileIdentifyEnabled>
+        <% end %>
+        <% if @substitutions[:check] %>
+          <Check>
+            <% if @substitutions[:check][:routing_number] %>
+              <RoutingNumber><%= @substitutions[:check][:routing_number] %></RoutingNumber>
+            <% end %>
+            <% if @substitutions[:check][:account_number] %>
+              <AccountNumber><%= @substitutions[:check][:account_number] %></AccountNumber>
+            <% end %>
+            <% if @substitutions[:check][:account_type] %>
+              <AccountType><%= @substitutions[:check][:account_type] %></AccountType>
+            <% end %>
+            <% if @substitutions[:check][:check_number] %>
+              <CheckNumber><%= @substitutions[:check][:check_number] %></CheckNumber>
+            <% end %>
+            <% if @substitutions[:check][:check_amount] %>
+              <CheckAmount><%= @substitutions[:check][:check_amount] %></CheckAmount>
+            <% end %>
+          </Check>
+        <% end %>
+        <% if @substitutions[:customer] %>
+          <Customer>
+            <% if @substitutions[:customer][:name_prefix] %>
+              <NamePrefix><%= @substitutions[:customer][:name_prefix] %></NamePrefix>
+            <% end %>
+            <% if @substitutions[:customer][:first_name] %>
+              <FirstName><%= @substitutions[:customer][:first_name] %></FirstName>
+            <% end %>
+            <% if @substitutions[:customer][:middle_name] %>
+              <MiddleName><%= @substitutions[:customer][:middle_name] %></MiddleName>
+            <% end %>
+            <% if @substitutions[:customer][:last_name] %>
+              <LastName><%= @substitutions[:customer][:last_name] %></LastName>
+            <% end %>
+            <% if @substitutions[:customer][:name_suffix] %>
+              <NameSuffix><%= @substitutions[:customer][:name_suffix] %></NameSuffix>
+            <% end %>
+            <% if @substitutions[:customer][:address_line_1] %>
+              <AddressLine1><%= @substitutions[:customer][:address_line_1] %></AddressLine1>
+            <% end %>
+            <% if @substitutions[:customer][:address_line_2] %>
+              <AddressLine2><%= @substitutions[:customer][:address_line_2] %></AddressLine2>
+            <% end %>
+            <% if @substitutions[:customer][:city] %>
+              <City><%= @substitutions[:customer][:city] %></City>
+            <% end %>
+            <% if @substitutions[:customer][:state] %>
+              <State><%= @substitutions[:customer][:state] %></State>
+            <% end %>
+            <% if @substitutions[:customer][:zip_code] %>
+              <ZipCode><%= @substitutions[:customer][:zip_code] %></ZipCode>
+            <% end %>
+            <% if @substitutions[:customer][:country] %>
+              <Country><%= @substitutions[:customer][:country] %></Country>
+            <% end %>
+            <% if @substitutions[:customer][:phone_number] %>
+              <PhoneNumber><%= @substitutions[:customer][:phone_number] %></PhoneNumber>
+            <% end %>
+            <% if @substitutions[:customer][:tax_id] %>
+              <TaxId><%= @substitutions[:customer][:tax_id] %></TaxId>
+            <% end %>
+            <% if @substitutions[:customer][:date_of_birth] %>
+              <DateOfBirth><%= @substitutions[:customer][:date_of_birth] %></DateOfBirth>
+            <% end %>
+            <% if @substitutions[:customer][:drivers_license_number] %>
+              <DlNumber><%= @substitutions[:customer][:drivers_license_number] %></DlNumber>
+            <% end %>
+            <% if @substitutions[:customer][:drivers_license_state] %>
+              <DlState><%= @substitutions[:customer][:drivers_license_state] %></DlState>
+            <% end %>
+            <% if @substitutions[:customer][:email_address] %>
+              <EmailAddress><%= @substitutions[:customer][:email_address] %></EmailAddress>
+            <% end %>
+            <% if @substitutions[:customer][:current_ip_address] %>
+              <CurrentIpAddress><%= @substitutions[:customer][:current_ip_address] %></CurrentIpAddress>
+            <% end %>
+            <% if @substitutions[:customer][:mobile_consent_record_id] %>
+              <MobileConsentRecordId><%= @substitutions[:customer][:mobile_consent_record_id] %></MobileConsentRecordId>
+            <% end %>
+            <% if @substitutions[:customer][:alternative_id_type] %>
+              <AltIdType><%= @substitutions[:customer][:alternative_id_type] %></AltIdType>
+            <% end %>
+            <% if @substitutions[:customer][:alternative_id_issuer] %>
+              <AltIdIssuer><%= @substitutions[:customer][:alternative_id_issuer] %></AltIdIssuer>
+            <% end %>
+            <% if @substitutions[:customer][:alternative_id_number] %>
+              <AltIdNumber><%= @substitutions[:customer][:alternative_id_number] %></AltIdNumber>
+            <% end %>
+            <% if @substitutions[:customer][:domain] %>
+              <Domain><%= @substitutions[:customer][:domain] %></Domain>
+            <% end %>
+          </Customer>
+        <% end %>
       </Inquiry>
     </PostInquiry>
   </soap:Body>

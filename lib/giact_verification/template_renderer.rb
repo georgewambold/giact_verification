@@ -1,5 +1,6 @@
 module GiactVerification
   class TemplateRenderer
+    attr_reader :substitutions, :filepath, :rendered_template
 
     def initialize(args)
       @substitutions = args[:substitutions]
@@ -11,7 +12,6 @@ module GiactVerification
     end
 
     private
-    attr_reader :substitutions, :filepath, :rendered_template
 
     def template_contents
       File.read(filepath)

@@ -11,15 +11,11 @@ module GiactVerification
     end
 
     def call
-      GiactVerification.ready_for_request?
-
-      if params_valid?
-        #
+      if GiactVerification.ready_for_request? && params_valid?
+        GiactVerification::RequestHandler.call(request_type: 'inquiry', substitutions: { check: check, customer: customer })
       else
         raise GiactVerification::ArgumentError, param_errors
       end
-
-      GiactVerification::Response.new
     end
 
     private

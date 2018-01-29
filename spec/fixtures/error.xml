@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <PostInquiryResponse xmlns="http://api.giact.com/verificationservices/v5">
+      <PostInquiryResult>
+        <ItemReferenceId>218958</ItemReferenceId>
+        <CreatedDate>2018-01-31T14:22:25.6344486-06:00</CreatedDate>
+        <ErrorMessage>If gAuthenticate, gIdentify, CustomerID, OFAC List Scanning, or gMobile is enabled, then either both FirstName and LastName or BusinessName is required.</ErrorMessage>
+        <VerificationResponse>Error</VerificationResponse>
+        <AccountResponseCode xsi:nil="true" />
+        <AccountAddedDate xsi:nil="true" />
+        <AccountLastUpdatedDate xsi:nil="true" />
+        <AccountClosedDate xsi:nil="true" />
+        <FundsConfirmationResult xsi:nil="true" />
+        <CustomerResponseCode xsi:nil="true" />
+      </PostInquiryResult>
+    </PostInquiryResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -3,8 +3,27 @@ require 'sinatra'
 class FakeGiact < Sinatra::Base
 
   post '/verificationservices/v5/InquiriesWS-5-8.asmx' do
-    content_type :json
+    request_body = Nori.new.parse(request.body.read)
+
+    content_type 'text/xml'
     status 200
-    body "fuck off, mate"
+    body response_factory(request_body)
+  end
+
+  private
+
+  def response_factory(body)
+    customer =
+      body['soap:Envelope']['soap:Body']['PostInquiry']['Inquiry']['Customer']
+
+    case customer['FirstName']
+    when 'Declined'
+      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'bad_customer.xml'))
+    when 'Error'
+      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'error.xml'))
+    else
+      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'good_customer.xml'))
+    end
   end
 end
+
