@@ -52,8 +52,8 @@ CustomerValidator = Dry::Validation.Schema do
   required(:last_name)   { filled? & size?(2..40) }
   optional(:name_suffix) { none?   | size?(1..4)  }
 
-  required(:address_line1)           { filled? & size?(2..40) }
-  optional(:address_line2)           { none?   | size?(1..40) }
+  required(:address_line1)            { filled? & size?(2..40) }
+  optional(:address_line2)            { none?   | size?(1..40) }
   required(:city)                     { filled? & size?(2..25) }
   required(:state)                    { filled? & size?(2) & serviced_state? }
   required(:zip_code)                 { filled? & number? & postal_code? }
