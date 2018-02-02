@@ -90,7 +90,7 @@ describe 'making a gAuthenticate request' do
     {
       first_name: 'Kent',
       last_name: 'Beck',
-      address_line_1: '123 Test Dr.',
+      address_line1: '123 Test Dr.',
       city: 'Melrose',
       state: 'MA',
       zip_code: '10023',

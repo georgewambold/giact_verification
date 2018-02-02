@@ -6,7 +6,7 @@ describe CustomerValidator do
       first_name: 'Sandi',
       last_name: 'Metz',
 
-      address_line_1: '123 Test Dr.',
+      address_line1: '123 Test Dr.',
       city: 'Duck',
       state: 'NN',
       zip_code: 10023,
@@ -293,9 +293,9 @@ describe CustomerValidator do
     end
   end
 
-  context 'address_line_1' do
+  context 'address_line1' do
     it 'can\'t be nil' do
-      params = minimum_customer_params.merge({ address_line_1: nil })
+      params = minimum_customer_params.merge({ address_line1: nil })
 
       validator = CustomerValidator.call(params)
 
@@ -303,7 +303,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be a blank string' do
-      params = minimum_customer_params.merge({ address_line_1: '' })
+      params = minimum_customer_params.merge({ address_line1: '' })
 
       validator = CustomerValidator.call(params)
 
@@ -311,7 +311,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be less than 2 characters' do
-      params = minimum_customer_params.merge({ address_line_1: 'z' })
+      params = minimum_customer_params.merge({ address_line1: 'z' })
 
       validator = CustomerValidator.call(params)
 
@@ -319,7 +319,7 @@ describe CustomerValidator do
     end
 
     it 'can be 2 characters' do
-      params = minimum_customer_params.merge({ address_line_1: '5A' })
+      params = minimum_customer_params.merge({ address_line1: '5A' })
 
       validator = CustomerValidator.call(params)
 
@@ -328,7 +328,7 @@ describe CustomerValidator do
 
 
     it 'can be 40 characters' do
-      params = minimum_customer_params.merge({ address_line_1: ('-' * 40) })
+      params = minimum_customer_params.merge({ address_line1: ('-' * 40) })
 
       validator = CustomerValidator.call(params)
 
@@ -336,7 +336,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be more than 40 characters' do
-      params = minimum_customer_params.merge({ address_line_1: ('-' * 41) })
+      params = minimum_customer_params.merge({ address_line1: ('-' * 41) })
 
       validator = CustomerValidator.call(params)
 
@@ -344,12 +344,12 @@ describe CustomerValidator do
     end
 
     context 'error messages' do
-      it 'returns errors related to address_line_1 if address_line_1 is invalid' do
-        params = minimum_customer_params.merge({ address_line_1: 'X' * 1000 })
+      it 'returns errors related to address_line1 if address_line1 is invalid' do
+        params = minimum_customer_params.merge({ address_line1: 'X' * 1000 })
 
         validator = CustomerValidator.call(params)
 
-        expect(validator.messages.keys).to include(:address_line_1)
+        expect(validator.messages.keys).to include(:address_line1)
       end
     end
   end

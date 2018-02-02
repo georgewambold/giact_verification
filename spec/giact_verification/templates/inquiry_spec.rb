@@ -29,7 +29,7 @@ describe 'inquiry XML template' do
         middle_name: 'some_middle_name',
         last_name: 'some_last_name',
         name_suffix: 'some_name_suffix',
-        address_line_1: 'some_address_line_1',
+        address_line1: 'some_address_line1',
         address_line_2: 'some_address_line_2',
         city: 'some_city',
         state: 'some_state',
@@ -152,8 +152,8 @@ describe 'inquiry XML template' do
         expect(filled_template).to include('some_name_suffix')
       end
 
-      it 'renders a address_line_1 substitution' do
-        expect(filled_template).to include('some_address_line_1')
+      it 'renders a address_line1 substitution' do
+        expect(filled_template).to include('some_address_line1')
       end
 
       it 'renders a address_line_2 substitution' do
