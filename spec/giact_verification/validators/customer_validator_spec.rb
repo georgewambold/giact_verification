@@ -354,9 +354,9 @@ describe CustomerValidator do
     end
   end
 
-  context 'address_line_2' do
+  context 'address_line2' do
     it 'can be nil' do
-      params = minimum_customer_params.merge({ address_line_2: nil })
+      params = minimum_customer_params.merge({ address_line2: nil })
 
       validator = CustomerValidator.call(params)
 
@@ -364,7 +364,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be a blank string' do
-      params = minimum_customer_params.merge({ address_line_2: '' })
+      params = minimum_customer_params.merge({ address_line2: '' })
 
       validator = CustomerValidator.call(params)
 
@@ -372,7 +372,7 @@ describe CustomerValidator do
     end
 
     it 'can be 1 character' do
-      params = minimum_customer_params.merge({ address_line_2: 'z' })
+      params = minimum_customer_params.merge({ address_line2: 'z' })
 
       validator = CustomerValidator.call(params)
 
@@ -380,7 +380,7 @@ describe CustomerValidator do
     end
 
     it 'can be 40 characters' do
-      params = minimum_customer_params.merge({ address_line_2: ('-' * 40) })
+      params = minimum_customer_params.merge({ address_line2: ('-' * 40) })
 
       validator = CustomerValidator.call(params)
 
@@ -388,7 +388,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be more than 40 characters' do
-      params = minimum_customer_params.merge({ address_line_2: ('-' * 41) })
+      params = minimum_customer_params.merge({ address_line2: ('-' * 41) })
 
       validator = CustomerValidator.call(params)
 
@@ -396,12 +396,12 @@ describe CustomerValidator do
     end
 
     context 'error messages' do
-      it 'returns errors related to address_line_2 if address_line_2 is invalid' do
-        params = minimum_customer_params.merge({ address_line_2: 'X' * 1000 })
+      it 'returns errors related to address_line2 if address_line2 is invalid' do
+        params = minimum_customer_params.merge({ address_line2: 'X' * 1000 })
 
         validator = CustomerValidator.call(params)
 
-        expect(validator.messages.keys).to include(:address_line_2)
+        expect(validator.messages.keys).to include(:address_line2)
       end
     end
   end
