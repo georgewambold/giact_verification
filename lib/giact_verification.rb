@@ -10,7 +10,9 @@ module GiactVerification
 
   # This is class level method delegation -- Really unpleasant.
   class << self
-    extend Forwardable
+    require 'forwardable'
+    extend ::Forwardable
+
 
     def_delegators :configuration,
       :servicing_country?,
