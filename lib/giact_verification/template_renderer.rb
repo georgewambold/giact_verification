@@ -1,3 +1,5 @@
+require 'erb'
+
 module GiactVerification
   class TemplateRenderer
     attr_reader :substitutions, :filepath, :rendered_template
