@@ -18,24 +18,22 @@ module GiactVerification
         raise RequestTypeError, request_type
       end
 
-      @raw_request  = render_request_body
-      @raw_response = post_request
-
       GiactVerification::Response.from_xml(
-        raw_request:  raw_request,
-        raw_response: raw_response
+        raw_request:  render_request_body,
+        raw_response: post_request
       )
     end
 
     private
-    attr_reader :substitutions, :raw_request, :raw_response
+    attr_reader :substitutions
 
+    #@move to Authenticate
     def render_request_body
       GiactVerification::TemplateRenderer.new(template_name: request_type, substitutions: substitutions).render
     end
 
     def post_request
-      GiactVerification::Request.post(body: raw_request)
+      GiactVerification::Request.post(body: render_request_body)
     end
   end
 end

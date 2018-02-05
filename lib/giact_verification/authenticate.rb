@@ -12,9 +12,10 @@ module GiactVerification
       @check    = GiactVerification::Check.new(attributes: args.fetch(:check, {}))
     end
 
+
     def call
       if customer.valid? && check.valid?
-        GiactVerification::RequestHandler.call(request_type: 'inquiry', substitutions: { check: check, customer: customer })
+        GiactVerification::RequestHandler.call(request_type: 'inquiry', substitutions: substitutions)
       else
         raise GiactVerification::ArgumentError, param_errors
       end
@@ -22,6 +23,14 @@ module GiactVerification
 
     private
     attr_reader :customer, :check
+
+    def substitutions
+      {
+        check: check.decorate_for_xml,
+        customer: customer.decorate_for_xml,
+        g_authenticate_enabled: true
+      }
+    end
 
     def param_errors
       (customer.errors.merge(check.errors)).map do |k,v|

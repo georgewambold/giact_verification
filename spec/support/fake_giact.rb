@@ -18,11 +18,11 @@ class FakeGiact < Sinatra::Base
 
     case customer['FirstName']
     when 'Declined'
-      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'bad_customer.xml'))
+      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'bad_customer_response.xml'))
     when 'Error'
-      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'error.xml'))
+      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'error_response.xml'))
     else
-      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'good_customer.xml'))
+      File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'good_customer_response.xml'))
     end
   end
 end

@@ -2,16 +2,27 @@ require 'spec_helper'
 require 'nori'
 
 describe 'making a giact request' do
-  it 'passes parameters from it\'s API to the GIACT API request' do
+  it 'passes check parameters from GiactVerification::Authenticate.call to the GIACT request' do
     set_config!
     stub_giact_requests!
 
     response = GiactVerification::Authenticate.call(check: full_check, customer: full_customer)
-    parser = Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
+    parser = Nori.new(:advanced_typecasting => false, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
     parsed_request_body = parser.parse(response.raw_request)[:'soap:envelope'][:'soap:body'][:post_inquiry][:inquiry]
 
-
     expect(parsed_request_body[:check]).to eq(giact_format_check)
+
+    reset_config!
+  end
+
+  it 'passes customer parameters from GiactVerification::Authenticate.call to the GIACT request' do
+    set_config!
+    stub_giact_requests!
+
+    response = GiactVerification::Authenticate.call(check: full_check, customer: full_customer)
+    parser = Nori.new(:advanced_typecasting => false, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
+    parsed_request_body = parser.parse(response.raw_request)[:'soap:envelope'][:'soap:body'][:post_inquiry][:inquiry]
+
     expect(parsed_request_body[:customer]).to eq(giact_format_customer)
 
     reset_config!
@@ -58,7 +69,7 @@ describe 'making a giact request' do
       country: 'US',
       phone_number: '1234567890',
       tax_id: '111003333',
-      date_of_birth: Date.parse('sept 1 1961'),
+      date_of_birth: '1961-09-01',
       dl_number: 'MC1234567',
       dl_state: 'MA',
       email_address: 'kbeck@you_must.tdd',

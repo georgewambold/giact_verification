@@ -3,6 +3,7 @@ require 'pry'
 require 'giact_verification'
 require 'webmock/rspec'
 require 'support/fake_giact'
+require 'yaml'
 
 def set_config!
   GiactVerification.configure do |config|

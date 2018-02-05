@@ -4,9 +4,8 @@ module GiactVerification
   class Check < OpenStruct
 
     def initialize(args)
-      @attributes        = args[:attributes]
-      @validation_class  = args[:validation_class] || CheckValidator
-      @validator         = validation_class.call(attributes)
+      @attributes       = args[:attributes]
+      @validation_class = args[:validation_class] || CheckValidator
 
       super(attributes)
     end
@@ -19,8 +18,16 @@ module GiactVerification
       validator.messages
     end
 
+    def decorate_for_xml
+      GiactVerification::DecorateHash.call(hashable: self)
+    end
+
     private
-    attr_reader :validation_class, :validator, :attributes
+    attr_reader :validation_class, :attributes
+
+    def validator
+      @validator ||= validation_class.call(self.to_h)
+    end
   end
 end
 
