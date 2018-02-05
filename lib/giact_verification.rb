@@ -1,7 +1,7 @@
 module GiactVerification
 
   def self.configuration
-    @configuration ||= Configuration.new
+    @configuration ||= GiactVerification::Configuration.new
   end
 
   def self.configure

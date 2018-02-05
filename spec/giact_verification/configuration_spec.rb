@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Configuration do
+describe GiactVerification::Configuration do
   it 'stores an api username' do
-    config = Configuration.new
+    config = GiactVerification::Configuration.new
 
     config.api_username = 'bobmartin'
 
@@ -12,7 +12,7 @@ describe Configuration do
   end
 
   it 'stores an api password' do
-    config = Configuration.new
+    config = GiactVerification::Configuration.new
 
     config.api_password = 'cleancoderules'
 
@@ -23,13 +23,13 @@ describe Configuration do
 
   describe '#invalid?' do
     it 'is invalid if it has a api_username and api_password' do
-      config = Configuration.new
+      config = GiactVerification::Configuration.new
 
       expect(config.invalid?).to eq(true)
     end
 
     it 'is invalid if it has a api_username and api_password' do
-      config = Configuration.new
+      config = GiactVerification::Configuration.new
 
       config.api_username = 'DNeil'
       config.api_password = 'homerow'
@@ -45,7 +45,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['FO', 'BA'] )
 
-      expect(Configuration.new.servicing?('IL')).to eq(false)
+      expect(GiactVerification::Configuration.new.servicing?('IL')).to eq(false)
 
       reset_config!
     end
@@ -54,7 +54,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['FO', 'BA'] )
 
-      expect(Configuration.new.servicing?('FO')).to eq(true)
+      expect(GiactVerification::Configuration.new.servicing?('FO')).to eq(true)
 
       reset_config!
     end
@@ -63,7 +63,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['FO', 'BA'] )
 
-      expect(Configuration.new.servicing?('fo')).to eq(false)
+      expect(GiactVerification::Configuration.new.servicing?('fo')).to eq(false)
 
       reset_config!
     end
@@ -74,7 +74,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['USA!BABYYYY!', 'CANADIA'] )
 
-      expect(Configuration.new.servicing_country?('micronesia')).to eq(false)
+      expect(GiactVerification::Configuration.new.servicing_country?('micronesia')).to eq(false)
 
       reset_config!
     end
@@ -83,7 +83,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['USA!BABYYYY!', 'CANADIA'] )
 
-      expect(Configuration.new.servicing_country?('CANADIA')).to eq(true)
+      expect(GiactVerification::Configuration.new.servicing_country?('CANADIA')).to eq(true)
 
       reset_config!
     end
@@ -94,7 +94,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['credit_check', 'bank_verify'] )
 
-      expect(Configuration.new.supports_request_type?('foo')).to eq(false)
+      expect(GiactVerification::Configuration.new.supports_request_type?('foo')).to eq(false)
 
       reset_config!
     end
@@ -103,7 +103,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['credit_check', 'bank_verify'] )
 
-      expect(Configuration.new.supports_request_type?('credit_check')).to eq(true)
+      expect(GiactVerification::Configuration.new.supports_request_type?('credit_check')).to eq(true)
 
       reset_config!
     end
@@ -114,7 +114,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['passport', 'student_id'] )
 
-      expect(Configuration.new.accepts_id_type?('green_card')).to eq(false)
+      expect(GiactVerification::Configuration.new.accepts_id_type?('green_card')).to eq(false)
 
       reset_config!
     end
@@ -123,7 +123,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['passport', 'student_id'] )
 
-      expect(Configuration.new.accepts_id_type?('passport')).to eq(true)
+      expect(GiactVerification::Configuration.new.accepts_id_type?('passport')).to eq(true)
     end
   end
 
@@ -132,7 +132,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['high_yield', 'biz_checking'] )
 
-      expect(Configuration.new.valid_account_type?('401k')).to eq(false)
+      expect(GiactVerification::Configuration.new.valid_account_type?('401k')).to eq(false)
 
       reset_config!
     end
@@ -141,7 +141,7 @@ describe Configuration do
       allow(YAML).to receive(:load_file)
         .and_return( ['high_yield', 'biz_checking'] )
 
-      expect(Configuration.new.valid_account_type?('high_yield')).to eq(true)
+      expect(GiactVerification::Configuration.new.valid_account_type?('high_yield')).to eq(true)
 
       reset_config!
     end
