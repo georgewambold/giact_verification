@@ -12,6 +12,6 @@ CheckValidator = Dry::Validation.Schema do
   required(:account_number) { filled? & str? & size?(4..17) }
 
   optional(:check_number)   { none? | (filled? & int?) }
-  optional(:check_amount)   { none? | (filled? & decimal?) }
+  optional(:check_amount)   { none? | (filled? & float?) }
   optional(:account_type)   { none? | (filled? & str? & valid_account_type? ) }
 end

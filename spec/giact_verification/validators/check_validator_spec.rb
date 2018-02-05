@@ -199,12 +199,12 @@ describe CheckValidator do
       expect(validator.success?).to eq(false)
     end
 
-    it 'can be an decimal' do
+    it 'can be an float' do
       params = minimum_check_params.merge(check_amount: 100.00)
 
       validator = CheckValidator.call(params)
 
-      expect(validator.success?).to eq(false)
+      expect(validator.success?).to eq(true)
     end
   end
 

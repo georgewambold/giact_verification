@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'nori'
 
 describe 'making a gAuthenticate request' do
   it 'raises a configuration error if we make a request without configuring the gem with API keys' do
@@ -18,7 +17,6 @@ describe 'making a gAuthenticate request' do
     invalid_customer_params = { }
     invalid_check_params    = { }
 
-
     expect{
       GiactVerification::Authenticate.call(customer: invalid_customer_params, check: invalid_check_params)
     }.to raise_error(
@@ -28,8 +26,8 @@ describe 'making a gAuthenticate request' do
     reset_config!
   end
 
-  describe 'external request' do
-    it 'returns a declined response when given the first_name \'Declined\'' do
+  describe 'external request with mock GIACT server' do
+    it 'can make a request and parse the response' do
       set_config!
       stub_giact_requests!
       declined_customer = valid_customer.merge(first_name: 'Declined')
@@ -41,7 +39,7 @@ describe 'making a gAuthenticate request' do
       reset_config!
     end
 
-    it 'returns an error response and an accessible error when given the first_name \'Error\'' do
+    it 'can make a request and parse an error response' do
       set_config!
       stub_giact_requests!
       error_customer = valid_customer.merge(first_name: 'Error')
@@ -50,37 +48,6 @@ describe 'making a gAuthenticate request' do
 
       expect(response.parsed_response[:verification_response]).to eq('Error')
       expect(response.parsed_response[:error_message]).to be_a(String)
-
-      reset_config!
-    end
-
-    it 'returns a pass response when given a first name that is not \'Error\' or \'Declined\'' do
-      set_config!
-      stub_giact_requests!
-      good_customer = valid_customer.merge(first_name: 'Kent')
-
-      response = GiactVerification::Authenticate.call(check: valid_check, customer: good_customer)
-
-      expect(response.parsed_response[:verification_response]).to eq('Pass')
-
-      reset_config!
-    end
-
-  end
-
-  describe 'integration tests' do
-    it 'passes parameters from it\'s API to the GIACT API request' do
-      set_config!
-      stub_giact_requests!
-      good_customer = valid_customer.merge(first_name: 'Kent')
-
-      response = GiactVerification::Authenticate.call(check: valid_check, customer: good_customer)
-      parser = Nori.new(:convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
-      parsed_request_body = parser.parse(response.raw_request)[:'soap:envelope'][:'soap:body'][:'post_inquiry'][:'inquiry']
-
-      expect(parsed_request_body[:check]).to eq(valid_check)
-
-      expect(parsed_request_body[:customer]).to eq(good_customer)
 
       reset_config!
     end
