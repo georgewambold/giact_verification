@@ -9,5 +9,7 @@ describe 'configuring the gem' do
 
     expect(GiactVerification.configuration.api_username).to eq('smetz')
     expect(GiactVerification.configuration.api_password).to eq('bikes4life')
+
+    reset_config!
   end
 end
