@@ -21,6 +21,44 @@ describe GiactVerification::Configuration do
     reset_config!
   end
 
+  it 'stores a sandbox_mode attribute' do
+    config = GiactVerification::Configuration.new
+
+    config.sandbox_mode = true
+
+    expect(config.sandbox_mode).to eq(true)
+
+    reset_config!
+  end
+
+  it 'defaults the sandbox_mode attribute to false' do
+    config = GiactVerification::Configuration.new
+
+    expect(config.sandbox_mode).to eq(false)
+
+    reset_config!
+  end
+
+  describe '#giact_uri' do
+    it 'should return the real URI if not in sandbox mode' do
+      config = GiactVerification::Configuration.new
+      config.sandbox_mode = false
+
+      expect(config.giact_uri.host).to eq('api.giact.com')
+
+      reset_config!
+    end
+
+    it 'should return the sandbox URI if in sandbox mode' do
+      config = GiactVerification::Configuration.new
+      config.sandbox_mode = true
+
+      expect(config.giact_uri.host).to eq('sandbox.api.giact.com')
+
+      reset_config!
+    end
+  end
+
   describe '#invalid?' do
     it 'is invalid if it has a api_username and api_password' do
       config = GiactVerification::Configuration.new

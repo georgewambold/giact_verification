@@ -4,15 +4,26 @@ module GiactVerification
   class Configuration
     attr_accessor :api_username
     attr_accessor :api_password
+    attr_accessor :sandbox_mode
 
     attr_reader :serviced_states, :serviced_countries, :valid_alternative_id_types, :valid_account_types, :supported_request_types
 
     def initialize
+      @sandbox_mode = false
+
       @serviced_countries         = YAML.load_file(GiactVerification.root + '/serviced_countries.yml')
       @serviced_states            = YAML.load_file(GiactVerification.root + '/serviced_states.yml')
       @valid_alternative_id_types = YAML.load_file(GiactVerification.root + '/alternative_id_types.yml')
       @valid_account_types        = YAML.load_file(GiactVerification.root + '/valid_account_types.yml')
       @supported_request_types    = YAML.load_file(GiactVerification.root + '/supported_request_types.yml')
+    end
+
+    def giact_uri
+      if sandbox_mode
+        URI.parse('https://sandbox.api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx').freeze
+      else
+        URI.parse('https://api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx').freeze
+      end
     end
 
     def invalid?
