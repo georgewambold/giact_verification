@@ -1,5 +1,6 @@
 module GiactVerification
   class Authenticate
+    TEMPLATE_NAME = 'inquiry'.freeze
 
     def self.call(args)
       new(args).call
@@ -14,15 +15,25 @@ module GiactVerification
 
 
     def call
-      if customer.valid? && check.valid?
-        GiactVerification::RequestHandler.call(request_type: 'inquiry', substitutions: substitutions)
-      else
+      if customer.invalid? || check.invalid?
         raise GiactVerification::ArgumentError, param_errors
       end
+
+      @response = GiactVerification::Request.post(body: request_body)
+
+      GiactVerification::Response.new(
+        raw_request:  request_body,
+        raw_response: response,
+        parsed_response: GiactVerification::ResponseParser.call(response: response)
+      )
     end
 
     private
-    attr_reader :customer, :check
+    attr_reader :customer, :check, :response
+
+    def request_body
+      @request_body ||= GiactVerification::TemplateRenderer.new(template_name: TEMPLATE_NAME, substitutions: substitutions).render
+    end
 
     def substitutions
       {

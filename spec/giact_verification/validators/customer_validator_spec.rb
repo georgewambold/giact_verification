@@ -922,12 +922,12 @@ describe CustomerValidator do
   end
 
   context 'drivers_license_number' do
-    it 'can\'t be nil' do
+    it 'can be nil' do
       params = minimum_customer_params.merge({ drivers_license_number: nil })
 
       validator = CustomerValidator.call(params)
 
-      expect(validator.success?).to be(false)
+      expect(validator.success?).to be(true)
     end
 
     it 'can\'t be a blank string' do
@@ -990,12 +990,12 @@ describe CustomerValidator do
   end
 
   context 'drivers_license_state' do
-    it 'can\'t be nil' do
+    it 'can be nil' do
       params = minimum_customer_params.merge({ drivers_license_state: nil })
 
       validator = CustomerValidator.call(params)
 
-      expect(validator.success?).to be(false)
+      expect(validator.success?).to be(true)
     end
 
     it 'can\'t be a blank string' do
@@ -1162,12 +1162,20 @@ describe CustomerValidator do
       expect(validator.success?).to be(false)
     end
 
-    it 'can\'t be a non-blank string' do
-      params = minimum_customer_params.merge({ mobile_consent_record_id: '12345' })
+    it 'can be a non-numeric string' do
+      params = minimum_customer_params.merge({ mobile_consent_record_id: 'asdf' })
 
       validator = CustomerValidator.call(params)
 
       expect(validator.success?).to be(false)
+    end
+
+    it 'can be a numeric string' do
+      params = minimum_customer_params.merge({ mobile_consent_record_id: '12345' })
+
+      validator = CustomerValidator.call(params)
+
+      expect(validator.success?).to be(true)
     end
 
     it 'can be an integer' do
@@ -1199,7 +1207,6 @@ describe CustomerValidator do
     end
 
     it 'can\'t be a blank string' do
-      allow(GiactVerification).to receive(:accepts_id_type?)
       params = minimum_customer_params.merge({ alternative_id_type: '' })
 
       validator = CustomerValidator.call(params)

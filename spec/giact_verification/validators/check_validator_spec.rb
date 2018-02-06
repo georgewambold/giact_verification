@@ -49,12 +49,12 @@ describe CheckValidator do
       expect(validator.success?).to eq(false)
     end
 
-    it 'can\'t be an integer' do
+    it 'can be an integer' do
       params = minimum_check_params.merge(routing_number: 123456789)
 
       validator = CheckValidator.call(params)
 
-      expect(validator.success?).to eq(false)
+      expect(validator.success?).to eq(true)
     end
 
     it 'can be a string' do
@@ -63,6 +63,16 @@ describe CheckValidator do
       validator = CheckValidator.call(params)
 
       expect(validator.success?).to eq(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to routing_number if routing_number is invalid' do
+        params = minimum_check_params.merge({ routing_number: 'count' })
+
+        validator = CheckValidator.call(params)
+
+        expect(validator.messages.keys).to include(:routing_number)
+      end
     end
   end
 
@@ -115,12 +125,12 @@ describe CheckValidator do
       expect(validator.success?).to eq(false)
     end
 
-    it 'can\'t be an integer' do
+    it 'can be an integer' do
       params = minimum_check_params.merge(account_number: 123456789)
 
       validator = CheckValidator.call(params)
 
-      expect(validator.success?).to eq(false)
+      expect(validator.success?).to eq(true)
     end
 
     it 'can be a string' do
@@ -129,6 +139,16 @@ describe CheckValidator do
       validator = CheckValidator.call(params)
 
       expect(validator.success?).to eq(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to account_number if account_number is invalid' do
+        params = minimum_check_params.merge({ account_number: 'count' })
+
+        validator = CheckValidator.call(params)
+
+        expect(validator.messages.keys).to include(:account_number)
+      end
     end
   end
 
@@ -164,6 +184,16 @@ describe CheckValidator do
 
       expect(validator.success?).to eq(true)
     end
+
+    context 'error messages' do
+      it 'returns errors related to check_number if check_number is invalid' do
+        params = minimum_check_params.merge({ check_number: 'count' })
+
+        validator = CheckValidator.call(params)
+
+        expect(validator.messages.keys).to include(:check_number)
+      end
+    end
   end
 
   context 'check_amount' do
@@ -191,12 +221,12 @@ describe CheckValidator do
       expect(validator.success?).to eq(false)
     end
 
-    it 'can\'t be an integer' do
+    it 'can be an integer' do
       params = minimum_check_params.merge(check_amount: 1234567)
 
       validator = CheckValidator.call(params)
 
-      expect(validator.success?).to eq(false)
+      expect(validator.success?).to eq(true)
     end
 
     it 'can be an float' do
@@ -205,6 +235,16 @@ describe CheckValidator do
       validator = CheckValidator.call(params)
 
       expect(validator.success?).to eq(true)
+    end
+
+    context 'error messages' do
+      it 'returns errors related to check_amount if check_amount is invalid' do
+        params = minimum_check_params.merge({ check_amount: 'count' })
+
+        validator = CheckValidator.call(params)
+
+        expect(validator.messages.keys).to include(:check_amount)
+      end
     end
   end
 
@@ -245,5 +285,16 @@ describe CheckValidator do
 
       expect(validator.success?).to be(true)
     end
+
+    context 'error messages' do
+      it 'returns errors related to account_type if account_type is invalid' do
+        params = minimum_check_params.merge({ account_type: 'count' })
+
+        validator = CheckValidator.call(params)
+
+        expect(validator.messages.keys).to include(:account_type)
+      end
+    end
   end
 end
+

@@ -61,11 +61,11 @@ CustomerValidator = Dry::Validation.Schema do
   required(:phone_number)             { filled? & number? & phone_number_length? & phone_number_format? }
   required(:tax_id)                   { filled? & number? & (last_four_ssn_length? | ssn_or_ein_length?) }
   required(:date_of_birth)            { filled? & (date? | date_time? | respond_to_strftime?) }
-  required(:drivers_license_number)   { filled? & drivers_license_length? }
-  required(:drivers_license_state)    { filled? & serviced_state? }
+  optional(:drivers_license_number)   { none? | drivers_license_length? }
+  optional(:drivers_license_state)    { none? | (filled? & serviced_state?) }
   optional(:email_address)            { none? | size?(1..100) }
   optional(:ip_address)               { none? | size?(1..15) }
-  optional(:mobile_consent_record_id) { none? | int? }
+  optional(:mobile_consent_record_id) { none? | number? }
   optional(:alternative_id_type)      { none? | accepted_alternative_id? }
   optional(:alternative_id_issuer)    { none? | (str? & size?(1..50)) }
   optional(:alternative_id_number)    { none? | (str? & size?(1..50)) }

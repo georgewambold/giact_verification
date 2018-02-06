@@ -1,0 +1,11 @@
+en:
+  errors:
+    valid_account_type?:
+      arg:
+        default: 'Must be a valid account type (Checking, Savings or Other)'
+    routing_number_length?:
+      arg:
+        default: 'length must be 9 digits with no dashes or whitespace'
+    account_number_length?:
+      arg:
+        default: 'length must be between 4 and 17 digits with no dashes or whitespace'

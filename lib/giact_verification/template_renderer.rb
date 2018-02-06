@@ -1,3 +1,5 @@
+require 'erb'
+
 module GiactVerification
   class TemplateRenderer
     attr_reader :substitutions, :filepath, :rendered_template
@@ -8,7 +10,7 @@ module GiactVerification
     end
 
     def render
-      ERB.new(template_contents).result(binding)
+      ERB.new(template_contents, nil, '>').result(binding)
     end
 
     private

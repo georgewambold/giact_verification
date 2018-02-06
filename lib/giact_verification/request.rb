@@ -2,16 +2,13 @@ require 'net/http'
 
 module GiactVerification
   class Request
-    class ApiError < Net::HTTPServerException;end
-
-    GIACT_URI = 'https://api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx'.freeze
 
     def self.post(args)
       new(args).post
     end
 
     def initialize(args)
-      @endpoint = URI.parse(GIACT_URI)
+      @endpoint = GiactVerification.giact_uri
       @body     = args[:body]
     end
 

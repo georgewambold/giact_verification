@@ -3,6 +3,7 @@ require 'pry'
 require 'giact_verification'
 require 'webmock/rspec'
 require 'support/fake_giact'
+require 'support/fake_sandbox_giact'
 require 'yaml'
 
 def set_config!
@@ -18,6 +19,7 @@ end
 
 def stub_giact_requests!
   stub_request(:any, /api.giact.com/).to_rack(FakeGiact)
+  stub_request(:any, /sandbox.api.giact.com/).to_rack(FakeSandboxGiact)
 end
 
 RSpec.configure do |config|
