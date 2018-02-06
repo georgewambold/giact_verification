@@ -1,12 +1,15 @@
 require 'erb'
 
 module GiactVerification
-  class TemplateRenderer
-    attr_reader :substitutions, :filepath, :rendered_template
+  class InquiryTemplateRenderer
+
+    def self.render(args)
+      new(args).render
+    end
 
     def initialize(args)
       @substitutions = args[:substitutions]
-      @filepath      = GiactVerification::TemplateFilepath.for(template_name: args[:template_name])
+      @filepath      = GiactVerification.inquiry_template_directory
     end
 
     def render
@@ -14,6 +17,7 @@ module GiactVerification
     end
 
     private
+    attr_reader :substitutions, :filepath, :rendered_template
 
     def template_contents
       File.read(filepath)

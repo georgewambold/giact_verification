@@ -14,8 +14,6 @@ describe CustomerValidator do
       phone_number: '1234567890',
       tax_id: '123456789',
       date_of_birth: Date.new(1990, 2, 15),
-      drivers_license_number: 'L1234567',
-      drivers_license_state: 'NN'
     }
   end
 
@@ -506,6 +504,17 @@ describe CustomerValidator do
       expect(validator.success?).to be(true)
     end
 
+    it 'can be a lowercase serviced state (US state or CA province)' do
+      allow(GiactVerification).to receive(:servicing?)
+        .and_return(true)
+
+      params = minimum_customer_params.merge({ state: 'BB' })
+
+      validator = CustomerValidator.call(params)
+
+      expect(validator.success?).to be(true)
+    end
+
     context 'error messages' do
       it 'returns errors related to state if state is invalid' do
         params = minimum_customer_params.merge({ state: 'X' * 1000 })
@@ -667,6 +676,17 @@ describe CustomerValidator do
         .and_return(true)
 
       params = minimum_customer_params.merge({ country: 'UU' })
+
+      validator = CustomerValidator.call(params)
+
+      expect(validator.success?).to be(true)
+    end
+
+    it 'can be a serviced state that is lowercase (US state or CA province)' do
+      allow(GiactVerification).to receive(:servicing_country?).with('UU')
+        .and_return(true)
+
+      params = minimum_customer_params.merge({ country: 'uu' })
 
       validator = CustomerValidator.call(params)
 
@@ -1027,6 +1047,17 @@ describe CustomerValidator do
       expect(validator.success?).to be(true)
     end
 
+    it 'can be a lowercase serviced state (US state or CA province)' do
+      allow(GiactVerification).to receive(:servicing?).with('BB')
+        .and_return(true)
+
+      params = minimum_customer_params.merge({ drivers_license_state: 'bb' })
+
+      validator = CustomerValidator.call(params)
+
+      expect(validator.success?).to be(true)
+    end
+
     context 'error messages' do
       it 'returns errors related to drivers_license_state if drivers_license_state is invalid' do
         allow(GiactVerification).to receive(:servicing?)
@@ -1321,7 +1352,7 @@ describe CustomerValidator do
     end
 
     it 'can be 1 character' do
-      params = minimum_customer_params.merge({ alternative_id_number: 'a' })
+      params = minimum_customer_params.merge({ alternative_id_number: '1' })
 
       validator = CustomerValidator.call(params)
 
@@ -1329,7 +1360,23 @@ describe CustomerValidator do
     end
 
     it 'can be 50 characters' do
-      params = minimum_customer_params.merge({ alternative_id_number: ('-' * 50) })
+      params = minimum_customer_params.merge({ alternative_id_number: ('1' * 50) })
+
+      validator = CustomerValidator.call(params)
+
+      expect(validator.success?).to be(true)
+    end
+
+    it 'can\'t contain any non-numeric characters' do
+      params = minimum_customer_params.merge({ alternative_id_number: 'abc123' })
+
+      validator = CustomerValidator.call(params)
+
+      expect(validator.success?).to be(false)
+    end
+
+    it 'can be an integer' do
+      params = minimum_customer_params.merge({ alternative_id_number: 123 })
 
       validator = CustomerValidator.call(params)
 
@@ -1337,15 +1384,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be more than 50 characters' do
-      params = minimum_customer_params.merge({ alternative_id_number: ('-' * 51) })
-
-      validator = CustomerValidator.call(params)
-
-      expect(validator.success?).to be(false)
-    end
-
-    it 'can\'t be an integer' do
-      params = minimum_customer_params.merge({ alternative_id_number: 123 })
+      params = minimum_customer_params.merge({ alternative_id_number: ('1' * 51) })
 
       validator = CustomerValidator.call(params)
 

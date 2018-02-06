@@ -34,8 +34,8 @@ module GiactVerification
     File.dirname __dir__
   end
 
-  def self.template_directory
-    File.join(root, 'lib', 'giact_verification', 'templates')
+  def self.inquiry_template_directory
+    File.join(root, 'lib', 'giact_verification', 'templates', 'inquiry.xml.erb')
   end
 end
 
@@ -48,8 +48,7 @@ require "giact_verification/extract_inquiry_result"
 require "giact_verification/request"
 require "giact_verification/xml_to_hash"
 require "giact_verification/errors"
-require "giact_verification/template_renderer"
-require "giact_verification/template_filepath"
+require "giact_verification/inquiry_template_renderer"
 require "giact_verification/validators/customer_validator"
 require "giact_verification/validators/check_validator"
 require "giact_verification/models/check"

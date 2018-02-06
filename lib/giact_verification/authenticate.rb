@@ -1,6 +1,5 @@
 module GiactVerification
   class Authenticate
-    TEMPLATE_NAME = 'inquiry'.freeze
 
     def self.call(args)
       new(args).call
@@ -32,14 +31,14 @@ module GiactVerification
     attr_reader :customer, :check, :response
 
     def request_body
-      @request_body ||= GiactVerification::TemplateRenderer.new(template_name: TEMPLATE_NAME, substitutions: substitutions).render
+      @request_body ||= GiactVerification::InquiryTemplateRenderer.render(substitutions: substitutions)
     end
 
     def substitutions
       {
+        g_authenticate_enabled: true,
         check: check.decorate_for_xml,
         customer: customer.decorate_for_xml,
-        g_authenticate_enabled: true
       }
     end
 
