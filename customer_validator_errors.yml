@@ -17,10 +17,10 @@ en:
         default: 'length must be 10 digits with 1-9 as the first digit (matching this regex: /[1-9][0-9]{9}/)'
     last_four_ssn_length?:
       arg:
-        default: 'length must 4 digits with no dashes or white space'
+        default: 'length must be 4 digits with no dashes or white space'
     ssn_or_ein_length?:
       arg:
-        default: 'length must 9 digits with no dashes or white space'
+        default: 'length must be 9 digits with no dashes or white space'
     respond_to_strftime?:
       arg:
         default: "must be an object that responds to the method ':strftime'"
@@ -30,3 +30,6 @@ en:
     accepted_alternative_id?:
       arg:
         default: "id type must be one of the accepted alternative ids (UsaMilitaryId, UsaStateId, PassportUsa, PassportForeign, UsaResidentAlienId, StudentId, TribalId, DlCanada, DlMexico, or OtherForeignId)"
+    alternative_id_number_length?:
+      arg:
+        default: "length must be between 1 and 50 digits"

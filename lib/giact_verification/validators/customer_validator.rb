@@ -6,11 +6,11 @@ CustomerValidator = Dry::Validation.Schema do
     config.messages_file = File.join(GiactVerification.root, 'customer_validator_errors.yml')
 
     def serviced_state?(state)
-      GiactVerification.servicing?(state)
+      GiactVerification.servicing?(state.upcase)
     end
 
     def serviced_country?(country)
-      GiactVerification.servicing_country?(country)
+      GiactVerification.servicing_country?(country.upcase)
     end
 
     def postal_code?(value)
@@ -44,6 +44,10 @@ CustomerValidator = Dry::Validation.Schema do
     def accepted_alternative_id?(id_type)
       GiactVerification.accepts_id_type?(id_type)
     end
+
+    def alternative_id_number_length?(alternative_id_number)
+      (1..50).include?(alternative_id_number.to_s.length)
+    end
   end
 
   optional(:name_prefix) { none?   | size?(1..4)  }
@@ -68,6 +72,6 @@ CustomerValidator = Dry::Validation.Schema do
   optional(:mobile_consent_record_id) { none? | number? }
   optional(:alternative_id_type)      { none? | accepted_alternative_id? }
   optional(:alternative_id_issuer)    { none? | (str? & size?(1..50)) }
-  optional(:alternative_id_number)    { none? | (str? & size?(1..50)) }
+  optional(:alternative_id_number)    { none? | (number? & alternative_id_number_length?) }
   optional(:domain)                   { none? | (str? & size?(1..100)) }
 end

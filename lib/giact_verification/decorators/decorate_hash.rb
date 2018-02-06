@@ -12,7 +12,7 @@ module GiactVerification
 
     def call
       input.map do |key, value|
-        [key, decorator.call(value)]
+        decorator.call(key: key, value: value)
       end.to_h
     end
 

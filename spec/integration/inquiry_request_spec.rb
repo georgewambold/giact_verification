@@ -28,6 +28,21 @@ describe 'making a giact request' do
     reset_config!
   end
 
+  it 'upcases state and country parameters before they\'re substituted into the GIACT request' do
+    set_config!
+    stub_giact_requests!
+
+    lowercase_value_customer = full_customer.merge(state: 'ma', country: 'us', drivers_license_state: 'ma')
+
+    response = GiactVerification::Authenticate.call(check: full_check, customer: lowercase_value_customer)
+    parser = Nori.new(:advanced_typecasting => false, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
+    parsed_request_body = parser.parse(response.raw_request)[:'soap:envelope'][:'soap:body'][:post_inquiry][:inquiry]
+
+    expect(parsed_request_body[:customer]).to eq(giact_format_customer)
+
+    reset_config!
+  end
+
   def full_customer
     {
       name_prefix: 'Mr',
