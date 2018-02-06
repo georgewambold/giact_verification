@@ -39,7 +39,7 @@ describe 'making a gAuthenticate request' do
       reset_config!
     end
 
-    it 'can make a request and parse an error response' do
+    it 'can make a request and parse an internal GIACT validation error response' do
       set_config!
       stub_giact_requests!
       error_customer = valid_customer.merge(first_name: 'Error')
@@ -48,6 +48,20 @@ describe 'making a gAuthenticate request' do
 
       expect(response.parsed_response[:verification_response]).to eq('Error')
       expect(response.parsed_response[:error_message]).to be_a(String)
+
+      reset_config!
+    end
+
+    it 'can make a request and parse an authentication error' do
+      set_config!
+      stub_giact_requests!
+      error_customer = valid_customer.merge(first_name: 'AuthError')
+
+      expect {
+        response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
+      }.to raise_error(
+        GiactVerification::HTTPError
+      )
 
       reset_config!
     end

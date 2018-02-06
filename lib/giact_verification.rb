@@ -17,7 +17,6 @@ module GiactVerification
     def_delegators :configuration,
       :servicing_country?,
       :servicing?,
-      :supports_request_type?,
       :accepts_id_type?,
       :valid_account_type?,
       :giact_uri
@@ -44,8 +43,9 @@ require "giact_verification/version"
 require "giact_verification/configuration"
 require "giact_verification/authenticate"
 require "giact_verification/response"
+require "giact_verification/response_parser"
+require "giact_verification/extract_inquiry_result"
 require "giact_verification/request"
-require "giact_verification/request_handler"
 require "giact_verification/xml_to_hash"
 require "giact_verification/errors"
 require "giact_verification/template_renderer"

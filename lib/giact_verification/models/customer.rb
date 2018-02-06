@@ -10,8 +10,8 @@ module GiactVerification
       super(attributes)
     end
 
-    def valid?
-      validator.success?
+    def invalid?
+      validator.failure?
     end
 
     def errors

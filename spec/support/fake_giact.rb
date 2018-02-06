@@ -21,6 +21,8 @@ class FakeGiact < Sinatra::Base
       File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'bad_customer_response.xml'))
     when 'Error'
       File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'error_response.xml'))
+    when 'AuthError'
+      'Error Message: Invalid API Credentials'
     else
       File.read(File.join(GiactVerification.root, 'spec', 'fixtures', 'good_customer_response.xml'))
     end

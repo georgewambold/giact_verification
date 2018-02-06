@@ -127,26 +127,6 @@ describe GiactVerification::Configuration do
     end
   end
 
-  describe '#supports_request_type?' do
-    it 'returns false for request types not in the configuration' do
-      allow(YAML).to receive(:load_file)
-        .and_return( ['credit_check', 'bank_verify'] )
-
-      expect(GiactVerification::Configuration.new.supports_request_type?('foo')).to eq(false)
-
-      reset_config!
-    end
-
-    it 'returns true for request types in the configuration' do
-      allow(YAML).to receive(:load_file)
-        .and_return( ['credit_check', 'bank_verify'] )
-
-      expect(GiactVerification::Configuration.new.supports_request_type?('credit_check')).to eq(true)
-
-      reset_config!
-    end
-  end
-
   describe '#accepts_id_type?' do
     it 'returns false for id types not in the configuration' do
       allow(YAML).to receive(:load_file)
