@@ -1,9 +1,5 @@
 # GiactVerification
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/giact_verification`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -12,30 +8,106 @@ Add this line to your application's Gemfile:
 gem 'giact_verification'
 ```
 
-And then execute:
-
-    $ bundle
-
 Or install it yourself as:
 
     $ gem install giact_verification
 
-## Usage
+## Configuration
+To set up your API keys, use the configuration helper like this:
 
-TODO: Write usage instructions here
+```ruby
+GiactVerification.configure do |config|
+  config.api_username = 'foo'
+  config.api_password = 'bar'
+  config.sandbox_mode = false
+end
+```
+Setting `config.sandbox_mode = true` will post all requests to GIACT's sandbox API.
 
-## Development
+## gAuthenticate
+`GiactVerification::Authenticate` takes two arguements: a [valid customer](#valid_customer) and a [valid check](#valid_check). 
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+GiactVerification::Authenticate.call(
+  customer: { 
+    first_name: "Kent"
+    last_name: "Beck" 
+    address_line1: "123 Test Dr."
+    city: "Abbotsford"
+    state: "MA"
+    zip_code: "54321"
+    phone_number: "4127982231"
+    tax_id: 9876543210
+    date_of_birth: Date.parse('Mar 6 1961')
+  },
+  check: {
+    routing_number: 123456789
+    account_number: 00012300089
+  }
+)
+```
+ 
+`GiactVerification::Authenticate.call()` will return a `GiactVerification::Response` object which has the following API:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+response = GiactVerification::Authenticate.call(customer: some_customer, check: some_check)
+
+response.raw_request    
+#=> The XML sent to GIACT
+
+response.raw_response    
+#=> A Net::HTTPResponse object with the response from GIACT
+
+response.parsed_response 
+#=> A hash of the inquiry results (the important stuff)
+
+response.code            
+#=> The status code of the response
+```
+## <a name="valid_customer">Valid Customer Attributes</a>
+The following are valid customer fields. Please note that the required fields noted below only represent the bare minimum. Some GIACT services will require additional fields.
+
+* **name_prefix:** 1-4 characters
+* **first_name:** 2-40 characters *REQUIRED*
+* **middle_name:** 1-40 characters
+* **last_name:** 2-40 characters *REQUIRED*
+* **name_suffix:** 1-4 characters
+* **address_line1:** 2-40 characters *REQUIRED*
+* **address_line2:** 1-40 characters
+* **city:** 2-25 characters *REQUIRED*
+* **state:** 2 characters, valid US state or Candian province *REQUIRED*
+* **zip_code:** 5 or 7 or 10 characters, valid US or Canadian postal code *REQUIRED*
+* **country:** Either 'US' or 'CA', defaults to 'US'
+* **phone_number:** 10 numeric characters, can't start with 0, no dashes *REQUIRED*
+* **tax_id:** Social security number or business ein *REQUIRED*
+* **date_of_birth:** Date, DateTime or an object that responds to :strftime *REQUIRED*
+* **drivers_license_number:** 1-28 numeric characters
+* **drivers_license_state:** 2 characters, valid US state or Candian province
+* **email_address:** 1-100 characters
+* **current_ip_address:** 1-15 characters
+* **mobile_consent_record_id:** Numeric, unspecified length
+* **alternative_id_type:** Must be one of the following: 'UsaMilitaryId', 'UsaStateId', 'PassportUsa', 'PassportForeign', 'UsaResidentAlienId', 'StudentId', 'TribalId', 'DlCanada', 'DlMexico', or 'OtherForeignId'
+* **alternative_id_issuer:** 1-50 characters
+* **alternative_id_number:** 1-50 numeric characters
+* **domain:** 1-100 characters
+
+## <a name="valid_check">Valid Check Attributes</a>
+The following are valid check fields:
+
+* **routing_number:** 9 numeric characters *REQUIRED*
+* **account_number:** 4-17 numeric characters *REQUIRED*
+* **check_number:** numeric, unspecified length
+* **check_amount:** float or float-like string (eg. '100.01')
+* **account_type:** one of the following: 'Checking', 'Savings' or 'Other'
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/giact_verification. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/georgewambold/giact_verification. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake` to run the tests.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
