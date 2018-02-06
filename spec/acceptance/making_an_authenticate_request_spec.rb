@@ -65,6 +65,20 @@ describe 'making a gAuthenticate request' do
 
       reset_config!
     end
+
+    it 'can make a request and parse a HTTP 401 error' do
+      set_config!
+      stub_giact_requests!
+      error_customer = valid_customer.merge(first_name: 'Blacklist')
+
+      expect {
+        response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
+      }.to raise_error(
+        GiactVerification::HTTPError
+      )
+
+      reset_config!
+    end
   end
 
   def valid_customer
