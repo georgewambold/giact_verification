@@ -26,12 +26,16 @@ module GiactVerification
     if configuration.invalid?
       raise ConfigurationError
     else
-      return true
+      true
     end
   end
 
   def self.root
     File.dirname __dir__
+  end
+
+  def self.config_directory
+    File.join(root, 'lib', 'giact_verification', 'etc')
   end
 
   def self.inquiry_template_directory

@@ -3,7 +3,7 @@ require 'dry-validation'
 CustomerValidator = Dry::Validation.Schema do
 
   configure do
-    config.messages_file = File.join(GiactVerification.root, 'customer_validator_errors.yml')
+    config.messages_file = File.join(GiactVerification.config_directory, 'customer_validator_errors.yml')
 
     def serviced_state?(state)
       GiactVerification.servicing?(state.upcase)
