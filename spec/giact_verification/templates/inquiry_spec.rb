@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'inquiry XML template' do
   def filled_template
-    @filled_template = GiactVerification::InquiryTemplateRenderer.render(
+    @filled_template = GiactVerification::InquiryTemplateRenderer.call(
       template_name: 'inquiry',
       substitutions: substitutions
     )

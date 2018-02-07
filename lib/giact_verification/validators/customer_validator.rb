@@ -3,7 +3,7 @@ require 'dry-validation'
 CustomerValidator = Dry::Validation.Schema do
 
   configure do
-    config.messages_file = File.join(GiactVerification.root, 'customer_validator_errors.yml')
+    config.messages_file = File.join(GiactVerification.config_directory, 'customer_validator_errors.yml')
 
     def serviced_state?(state)
       GiactVerification.servicing?(state.upcase)
@@ -68,7 +68,7 @@ CustomerValidator = Dry::Validation.Schema do
   optional(:drivers_license_number)   { none? | drivers_license_length? }
   optional(:drivers_license_state)    { none? | (filled? & serviced_state?) }
   optional(:email_address)            { none? | size?(1..100) }
-  optional(:ip_address)               { none? | size?(1..15) }
+  optional(:current_ip_address)       { none? | size?(1..15) }
   optional(:mobile_consent_record_id) { none? | number? }
   optional(:alternative_id_type)      { none? | accepted_alternative_id? }
   optional(:alternative_id_issuer)    { none? | (str? & size?(1..50)) }

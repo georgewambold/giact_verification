@@ -3,7 +3,7 @@ require 'dry-validation'
 CheckValidator = Dry::Validation.Schema do
 
   configure do
-    config.messages_file = File.join(GiactVerification.root, 'check_validator_errors.yml')
+    config.messages_file = File.join(GiactVerification.config_directory, 'check_validator_errors.yml')
 
     def valid_account_type?(account_type)
       GiactVerification.valid_account_type?(account_type)

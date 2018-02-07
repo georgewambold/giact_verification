@@ -11,10 +11,10 @@ module GiactVerification
     def initialize
       @sandbox_mode = false
 
-      @serviced_countries         = YAML.load_file(GiactVerification.root + '/serviced_countries.yml')
-      @serviced_states            = YAML.load_file(GiactVerification.root + '/serviced_states.yml')
-      @valid_alternative_id_types = YAML.load_file(GiactVerification.root + '/alternative_id_types.yml')
-      @valid_account_types        = YAML.load_file(GiactVerification.root + '/valid_account_types.yml')
+      @serviced_countries         = YAML.load_file(GiactVerification.config_directory + '/serviced_countries.yml')
+      @serviced_states            = YAML.load_file(GiactVerification.config_directory + '/serviced_states.yml')
+      @valid_alternative_id_types = YAML.load_file(GiactVerification.config_directory + '/alternative_id_types.yml')
+      @valid_account_types        = YAML.load_file(GiactVerification.config_directory + '/valid_account_types.yml')
     end
 
     def giact_uri
