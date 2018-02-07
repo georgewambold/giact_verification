@@ -3,8 +3,8 @@ require 'net/http'
 module GiactVerification
   class Request
 
-    def self.post(args)
-      new(args).post
+    def self.call(args)
+      new(args).call
     end
 
     def initialize(args)
@@ -12,7 +12,7 @@ module GiactVerification
       @body     = args[:body]
     end
 
-    def post
+    def call
       http = Net::HTTP.new(endpoint.host, endpoint.port)
 
       http.use_ssl = true

@@ -3,8 +3,8 @@ require 'erb'
 module GiactVerification
   class InquiryTemplateRenderer
 
-    def self.render(args)
-      new(args).render
+    def self.call(args)
+      new(args).call
     end
 
     def initialize(args)
@@ -12,7 +12,7 @@ module GiactVerification
       @filepath      = GiactVerification.inquiry_template_directory
     end
 
-    def render
+    def call
       ERB.new(template_contents, nil, '>').result(binding)
     end
 

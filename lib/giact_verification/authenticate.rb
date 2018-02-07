@@ -12,13 +12,12 @@ module GiactVerification
       @check    = GiactVerification::Check.new(attributes: args.fetch(:check, {}))
     end
 
-
     def call
       if customer.invalid? || check.invalid?
         raise GiactVerification::ArgumentError, param_errors
       end
 
-      @response = GiactVerification::Request.post(body: request_body)
+      @response = GiactVerification::Request.call(body: request_body)
 
       GiactVerification::Response.new(
         raw_request:  request_body,
@@ -31,7 +30,7 @@ module GiactVerification
     attr_reader :customer, :check, :response
 
     def request_body
-      @request_body ||= GiactVerification::InquiryTemplateRenderer.render(substitutions: substitutions)
+      @request_body ||= GiactVerification::InquiryTemplateRenderer.call(substitutions: substitutions)
     end
 
     def substitutions

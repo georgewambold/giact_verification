@@ -6,7 +6,7 @@ describe GiactVerification::InquiryTemplateRenderer do
       allow(File).to receive(:read)
         .and_return("name: <%= substitutions[:customer][:name] %>")
 
-      rendered_template = GiactVerification::InquiryTemplateRenderer.render(template_name: 'foo', substitutions: {customer: { name: 'bar' }})
+      rendered_template = GiactVerification::InquiryTemplateRenderer.call(template_name: 'foo', substitutions: {customer: { name: 'bar' }})
 
       expect(rendered_template).to include('bar')
     end
