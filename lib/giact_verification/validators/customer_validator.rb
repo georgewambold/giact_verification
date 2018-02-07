@@ -68,7 +68,7 @@ CustomerValidator = Dry::Validation.Schema do
   optional(:drivers_license_number)   { none? | drivers_license_length? }
   optional(:drivers_license_state)    { none? | (filled? & serviced_state?) }
   optional(:email_address)            { none? | size?(1..100) }
-  optional(:ip_address)               { none? | size?(1..15) }
+  optional(:current_ip_address)       { none? | size?(1..15) }
   optional(:mobile_consent_record_id) { none? | number? }
   optional(:alternative_id_type)      { none? | accepted_alternative_id? }
   optional(:alternative_id_issuer)    { none? | (str? & size?(1..50)) }

@@ -1124,9 +1124,9 @@ describe CustomerValidator do
     end
   end
 
-  context 'ip_address' do
+  context 'current_ip_address' do
     it 'can be nil' do
-      params = minimum_customer_params.merge({ ip_address: nil })
+      params = minimum_customer_params.merge({ current_ip_address: nil })
 
       validator = CustomerValidator.call(params)
 
@@ -1134,7 +1134,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be a blank string' do
-      params = minimum_customer_params.merge({ ip_address: '' })
+      params = minimum_customer_params.merge({ current_ip_address: '' })
 
       validator = CustomerValidator.call(params)
 
@@ -1142,7 +1142,7 @@ describe CustomerValidator do
     end
 
     it 'can be 1 character' do
-      params = minimum_customer_params.merge({ ip_address: 'a' })
+      params = minimum_customer_params.merge({ current_ip_address: 'a' })
 
       validator = CustomerValidator.call(params)
 
@@ -1150,7 +1150,7 @@ describe CustomerValidator do
     end
 
     it 'can be 15 characters' do
-      params = minimum_customer_params.merge({ ip_address: ('-' * 15) })
+      params = minimum_customer_params.merge({ current_ip_address: ('-' * 15) })
 
       validator = CustomerValidator.call(params)
 
@@ -1158,7 +1158,7 @@ describe CustomerValidator do
     end
 
     it 'can\'t be more than 15 characters' do
-      params = minimum_customer_params.merge({ ip_address: ('-' * 16) })
+      params = minimum_customer_params.merge({ current_ip_address: ('-' * 16) })
 
       validator = CustomerValidator.call(params)
 
@@ -1166,12 +1166,12 @@ describe CustomerValidator do
     end
 
     context 'error messages' do
-      it 'returns errors related to ip_address if ip_address is invalid' do
-        params = minimum_customer_params.merge({ ip_address: 'X' * 1000 })
+      it 'returns errors related to current_ip_address if current_ip_address is invalid' do
+        params = minimum_customer_params.merge({ current_ip_address: 'X' * 1000 })
 
         validator = CustomerValidator.call(params)
 
-        expect(validator.messages.keys).to include(:ip_address)
+        expect(validator.messages.keys).to include(:current_ip_address)
       end
     end
   end
