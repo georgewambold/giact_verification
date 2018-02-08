@@ -17,17 +17,11 @@ module GiactVerification
         raise GiactVerification::ArgumentError, param_errors
       end
 
-      @response = GiactVerification::Request.call(body: request_body)
-
-      GiactVerification::Response.new(
-        raw_request:  request_body,
-        raw_response: response,
-        parsed_response: GiactVerification::ResponseParser.call(response: response)
-      )
+      GiactVerification::Request.call(body: request_body)
     end
 
     private
-    attr_reader :customer, :check, :response
+    attr_reader :customer, :check
 
     def request_body
       @request_body ||= GiactVerification::InquiryTemplateRenderer.call(substitutions: substitutions)
