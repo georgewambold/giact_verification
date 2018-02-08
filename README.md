@@ -25,13 +25,13 @@ end
 Setting `config.sandbox_mode = true` will post all requests to GIACT's sandbox API.
 
 ## gAuthenticate
-`GiactVerification::Authenticate` takes two arguements: a [valid customer](#valid_customer) and a [valid check](#valid_check). 
+`GiactVerification::Authenticate` takes two arguements: a [valid customer](#valid_customer) and a [valid check](#valid_check).
 
 ```ruby
 GiactVerification::Authenticate.call(
-  customer: { 
+  customer: {
     first_name: "Kent"
-    last_name: "Beck" 
+    last_name: "Beck"
     address_line1: "123 Test Dr."
     city: "Abbotsford"
     state: "MA"
@@ -46,24 +46,22 @@ GiactVerification::Authenticate.call(
   }
 )
 ```
- 
+
 `GiactVerification::Authenticate.call()` will return a `GiactVerification::Response` object which has the following API:
 
 ```ruby
 response = GiactVerification::Authenticate.call(customer: some_customer, check: some_check)
 
-response.raw_request    
+response.raw_request
 #=> The XML sent to GIACT
 
-response.raw_response    
+response.raw_response
 #=> A Net::HTTPResponse object with the response from GIACT
 
-response.parsed_response 
+response.parsed_response
 #=> A hash of the inquiry results (the important stuff)
-
-response.code            
-#=> The status code of the response
 ```
+
 ## <a name="valid_customer">Valid Customer Attributes</a>
 The following are valid customer fields. Please note that the required fields noted below only represent the bare minimum. Some GIACT services will require additional fields.
 

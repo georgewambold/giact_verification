@@ -20,11 +20,5 @@ describe GiactVerification::Response do
 
       expect(response.parsed_response).to eq('passed!')
     end
-
-    it 'has a code attribute' do
-      response = GiactVerification::Response.new(code: 422)
-
-      expect(response.code).to eq(422)
-    end
   end
 end
