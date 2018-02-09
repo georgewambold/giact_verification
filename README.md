@@ -1,6 +1,7 @@
 # GiactVerification
 This gem only works for **Version 5.8.x** of GIACT's API
 
+there should be travis stuff
 ## Installation
 
 Add this line to your application's Gemfile:
