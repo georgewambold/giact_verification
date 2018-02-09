@@ -1,4 +1,6 @@
 # GiactVerification
+[![Build Status](https://travis-ci.org/georgewambold/giact_verification.svg?branch=master)](https://travis-ci.org/georgewambold/giact_verification)
+
 This gem only works for **Version 5.8.x** of GIACT's API
 
 ## Installation
