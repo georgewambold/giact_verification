@@ -8,7 +8,7 @@ module GiactVerification
     end
 
     def initialize(args)
-      @endpoint = GiactVerification.giact_uri
+      @endpoint = GiactVerification.giact_endpoint
       @body     = args[:body]
     end
 

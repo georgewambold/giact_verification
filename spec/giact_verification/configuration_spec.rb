@@ -39,12 +39,12 @@ describe GiactVerification::Configuration do
     reset_config!
   end
 
-  describe '#giact_uri' do
+  describe '#giact_endpoint' do
     it 'should return the real URI if not in sandbox mode' do
       config = GiactVerification::Configuration.new
       config.sandbox_mode = false
 
-      expect(config.giact_uri.host).to eq('api.giact.com')
+      expect(config.giact_endpoint.host).to eq('api.giact.com')
 
       reset_config!
     end
@@ -53,7 +53,16 @@ describe GiactVerification::Configuration do
       config = GiactVerification::Configuration.new
       config.sandbox_mode = true
 
-      expect(config.giact_uri.host).to eq('sandbox.api.giact.com')
+      expect(config.giact_endpoint.host).to eq('sandbox.api.giact.com')
+
+      reset_config!
+    end
+
+    it 'should return the passed in URI if a giact_uri is passed in' do
+      config = GiactVerification::Configuration.new
+      config.giact_uri = 'https://custom.giact.com/foo'
+
+      expect(config.giact_endpoint.host).to eq('custom.giact.com')
 
       reset_config!
     end
