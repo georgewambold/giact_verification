@@ -1,39 +1,69 @@
 require 'spec_helper'
 
 describe GiactVerification::ResponseParser do
-  context 'the response indicates invalid credentials' do
-    it 'raises an error' do
-      response = instance_double(Net::HTTPOK, code: 200, body: 'Error Message: Invalid API Credentials')
-
-      expect {
-        GiactVerification::ResponseParser.call(response: response)
-      }.to raise_error(
-        GiactVerification::HTTPError
-      )
-    end
-  end
-
-  context 'the response is successful' do
-    it 'returned the parsed xml as a ruby hash' do
-      allow(GiactVerification::ExtractInquiryResult).to receive(:call)
-        .and_return({response: 'yay'})
-      response = instance_double(Net::HTTPOK, code: 200, body: '<response>yay</response>')
+  context 'response.code == 200 AND response.body contains some string that is not valid GIACT XML' do
+    it 'return a status of :failure' do
+      response = double('response', code: "200", body: 'some string')
+      allow(GiactVerification::GiactXml).to receive(:new)
+        .and_return(instance_double(GiactVerification::GiactXml, valid?: false))
 
       parsed_response = GiactVerification::ResponseParser.call(response: response)
 
-      expect(parsed_response).to eq({response: 'yay'})
+      expect(parsed_response.status).to eq(:failure)
+    end
+
+    it 'return a blank hash for the body' do
+      response = double('response', code: "200", body: 'some string')
+      allow(GiactVerification::GiactXml).to receive(:new)
+        .and_return(instance_double(GiactVerification::GiactXml, valid?: false))
+
+      parsed_response = GiactVerification::ResponseParser.call(response: response)
+
+      expect(parsed_response.body).to eq({})
     end
   end
 
-  context 'the response fails with a 401 status code' do
-    it 'raises an HTTPError' do
-      response = instance_double(Net::HTTPUnauthorized, code: 401, body: '<html><h1>YA GOOFD</h1></html>')
-
-      expect {
-       GiactVerification::ResponseParser.call(response: response)
-      }.to raise_error(
-        GiactVerification::HTTPError
+  context 'response.code == 200 AND response.body that is valid GIACT XML' do
+    it 'return a status of :success' do
+      response = double('response', code: "200", body: '<valid>xml</valid>')
+      allow(GiactVerification::GiactXml).to receive(:new)
+        .and_return(
+          instance_double(GiactVerification::GiactXml, valid?: true, inquiry_result: {foo: 'bar'})
       )
+
+      parsed_response = GiactVerification::ResponseParser.call(response: response)
+
+      expect(parsed_response.status).to eq(:success)
+    end
+
+    it 'return a blank hash for the body' do
+      response = double('response', code: "200", body: '<valid>xml</valid>')
+      allow(GiactVerification::GiactXml).to receive(:new)
+        .and_return(
+          instance_double(GiactVerification::GiactXml, valid?: true, inquiry_result: {valid: 'xml'})
+      )
+
+      parsed_response = GiactVerification::ResponseParser.call(response: response)
+
+      expect(parsed_response.body).to eq({valid: 'xml'})
+    end
+  end
+
+  context 'response.code != 2**' do
+    it 'return a status of :failure' do
+      response = double('response', code: "401", body: 'some string')
+
+      parsed_response = GiactVerification::ResponseParser.call(response: response)
+
+      expect(parsed_response.status).to eq(:failure)
+    end
+
+    it 'return a blank hash for the body' do
+      response = double('response', code: "401", body: 'some string')
+
+      parsed_response = GiactVerification::ResponseParser.call(response: response)
+
+      expect(parsed_response.body).to eq({})
     end
   end
 end

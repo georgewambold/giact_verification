@@ -1,7 +1,6 @@
 module GiactVerification
   class ExtractInquiryResult
 
-
     def self.call(args)
       new(args).call
     end

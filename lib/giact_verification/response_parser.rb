@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module GiactVerification
   class ResponseParser
 
@@ -6,28 +8,28 @@ module GiactVerification
     end
 
     def initialize(args)
-      @response = args[:response]
+      @response  = args[:response]
     end
 
     def call
-      if giact_authentication_error?(response)
-        raise HTTPError, response.body
-      elsif non_2XX_response_code?(response)
-        raise HTTPError, response.body
+      if successful_request?
+        OpenStruct.new({ body: giact_xml.inquiry_result, status: :success })
       else
-        GiactVerification::ExtractInquiryResult.call(xml: response.body)
+        OpenStruct.new({ body: {}, status: :failure })
       end
     end
 
     private
     attr_reader :response
 
-    def giact_authentication_error?(response)
-      response.body =~ /Invalid API Credentials/
+    def successful_request?
+      response.code == "200" && giact_xml.valid?
     end
 
-    def non_2XX_response_code?(response)
-      /[^2]\d\d/ =~ response.code.to_s
+    def giact_xml
+      @giact_xml ||= GiactVerification::GiactXml.new(xml: response.body)
     end
   end
 end
+
+
