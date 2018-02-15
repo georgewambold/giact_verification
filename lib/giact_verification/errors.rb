@@ -3,4 +3,5 @@ module GiactVerification
   class ConfigurationError < RuntimeError; end
   class HTTPError < StandardError;end;
   class MalformedXmlError < StandardError;end;
+  class GiactXmlError < StandardError;end;
 end

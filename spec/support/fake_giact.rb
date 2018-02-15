@@ -27,6 +27,10 @@ class FakeGiact < Sinatra::Base
       content_type 'text/xml'
       status 200
       body 'Error Message: Invalid API Credentials'
+    when 'UnknownError'
+      content_type 'text/xml'
+      status 200
+      body 'Three strikes then you refactor'
     when 'Blacklist'
       content_type 'text/html'
       status 401

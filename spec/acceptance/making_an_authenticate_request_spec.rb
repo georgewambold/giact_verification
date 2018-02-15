@@ -27,57 +27,73 @@ describe 'making a gAuthenticate request' do
   end
 
   describe 'external request with mock GIACT server' do
-    it 'can make a request and parse the response' do
-      set_config!
-      stub_giact_requests!
-      declined_customer = valid_customer.merge(first_name: 'Declined')
+    context 'response code 200' do
+      it 'can parse the response' do
+        set_config!
+        stub_giact_requests!
+        declined_customer = valid_customer.merge(first_name: 'Declined')
 
-      response = GiactVerification::Authenticate.call(check: valid_check, customer: declined_customer)
+        response = GiactVerification::Authenticate.call(check: valid_check, customer: declined_customer)
 
-      expect(response.parsed_response[:verification_response]).to eq('Declined')
+        expect(response.status).to eq(:success)
+        expect(response.parsed_response[:verification_response]).to eq('Declined')
 
-      reset_config!
-    end
+        reset_config!
+      end
 
-    it 'can make a request and parse an internal GIACT validation error response' do
-      set_config!
-      stub_giact_requests!
-      error_customer = valid_customer.merge(first_name: 'Error')
+      it 'parses an internal GIACT validation error response' do
+        set_config!
+        stub_giact_requests!
+        error_customer = valid_customer.merge(first_name: 'Error')
 
-      response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
-
-      expect(response.parsed_response[:verification_response]).to eq('Error')
-      expect(response.parsed_response[:error_message]).to be_a(String)
-
-      reset_config!
-    end
-
-    it 'can make a request and parse an authentication error' do
-      set_config!
-      stub_giact_requests!
-      error_customer = valid_customer.merge(first_name: 'AuthError')
-
-      expect {
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
-      }.to raise_error(
-        GiactVerification::HTTPError
-      )
 
-      reset_config!
+        expect(response.status).to eq(:success)
+        expect(response.parsed_response[:verification_response]).to eq('Error')
+
+        reset_config!
+      end
+
+      it 'parses an authentication error in the body' do
+        set_config!
+        stub_giact_requests!
+        error_customer = valid_customer.merge(first_name: 'AuthError')
+
+        response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
+
+        expect(response.status).to eq(:failure)
+        expect(response.parsed_response).to be_empty
+
+        reset_config!
+      end
+
+      it 'parses an unknown error the body' do
+        set_config!
+        stub_giact_requests!
+        error_customer = valid_customer.merge(first_name: 'UnknownError')
+
+        response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
+
+        expect(response.status).to eq(:failure)
+        expect(response.parsed_response).to be_empty
+
+        reset_config!
+      end
     end
 
-    it 'can make a request and parse a HTTP 401 error' do
-      set_config!
-      stub_giact_requests!
-      error_customer = valid_customer.merge(first_name: 'Blacklist')
+    context 'response code not 2XX' do
+      it 'can make a request and parse an HTTP 401 error' do
+        set_config!
+        stub_giact_requests!
+        error_customer = valid_customer.merge(first_name: 'Blacklist')
 
-      expect {
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
-      }.to raise_error(
-        GiactVerification::HTTPError
-      )
 
-      reset_config!
+        expect(response.status).to eq(:failure)
+        expect(response.parsed_response).to be_empty
+
+        reset_config!
+      end
     end
   end
 
