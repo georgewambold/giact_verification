@@ -61,6 +61,11 @@ response.raw_request
 response.raw_response
 #=> A Net::HTTPResponse object with the response from GIACT
 
+response.status
+#=> Either :failure or :success -- 
+# :success indicates GIACT returned valid XML 
+# :failure indicates there was some kind of error. You can then check the raw_response for details.
+
 response.parsed_response
 #=> A hash of the inquiry results (the important stuff)
 ```
