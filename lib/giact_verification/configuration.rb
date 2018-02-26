@@ -5,6 +5,7 @@ module GiactVerification
     attr_accessor :api_username
     attr_accessor :api_password
     attr_accessor :sandbox_mode
+    attr_accessor :giact_uri
 
     attr_reader :serviced_states, :serviced_countries, :valid_alternative_id_types, :valid_account_types
 
@@ -17,8 +18,10 @@ module GiactVerification
       @valid_account_types        = YAML.load_file(GiactVerification.config_directory + '/valid_account_types.yml')
     end
 
-    def giact_uri
-      if sandbox_mode
+    def giact_endpoint
+      if giact_uri
+        URI.parse(giact_uri)
+      elsif sandbox_mode
         URI.parse('https://sandbox.api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx').freeze
       else
         URI.parse('https://api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx').freeze

@@ -22,7 +22,8 @@ To set up your API keys, use the configuration helper like this:
 GiactVerification.configure do |config|
   config.api_username = 'foo'
   config.api_password = 'bar'
-  config.sandbox_mode = false
+  config.sandbox_mode = false #optional
+  config.giact_uri = 'http://custom.giact.api.com/foo/bar' #optional
 end
 ```
 Setting `config.sandbox_mode = true` will post all requests to GIACT's sandbox API.

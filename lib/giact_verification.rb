@@ -19,7 +19,7 @@ module GiactVerification
       :servicing?,
       :accepts_id_type?,
       :valid_account_type?,
-      :giact_uri
+      :giact_endpoint
   end
 
   def self.ready_for_request?
