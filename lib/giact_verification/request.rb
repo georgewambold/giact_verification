@@ -16,14 +16,14 @@ module GiactVerification
       http = Net::HTTP.new(endpoint.host, endpoint.port)
       http.use_ssl = true
 
-      raw_response = http.post(endpoint.path, body, 'Content-Type' => 'text/xml')
+      response = http.post(endpoint.path, body, 'Content-Type' => 'text/xml')
 
-      parsed_response = GiactVerification::ResponseParser.call(response: raw_response)
+      parsed_response = GiactVerification::ResponseParser.call(response: response)
 
       GiactVerification::Response.new(
-        raw_request: body,
-        raw_response: raw_response,
-        status: parsed_response.status,
+        raw_request:     body,
+        raw_response:    response.body,
+        status:          parsed_response.status,
         parsed_response: parsed_response.body
       )
     end
