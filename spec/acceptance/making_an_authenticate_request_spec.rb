@@ -36,6 +36,8 @@ describe 'making a gAuthenticate request' do
         response = GiactVerification::Authenticate.call(check: valid_check, customer: declined_customer)
 
         expect(response.status).to eq(:success)
+        expect(response.raw_response).to be_a(String)
+        expect(response.raw_request).to be_a(String)
         expect(response.parsed_response[:verification_response]).to eq('Declined')
 
         reset_config!
@@ -49,6 +51,8 @@ describe 'making a gAuthenticate request' do
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
 
         expect(response.status).to eq(:success)
+        expect(response.raw_response).to be_a(String)
+        expect(response.raw_request).to be_a(String)
         expect(response.parsed_response[:verification_response]).to eq('Error')
 
         reset_config!
