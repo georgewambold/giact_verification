@@ -59,15 +59,26 @@ response.raw_request
 #=> The XML sent to GIACT
 
 response.raw_response
-#=> A Net::HTTPResponse object with the response from GIACT
+#=> The XML returned from GIACT
 
-response.status
-#=> Either :failure or :success -- 
-# :success indicates GIACT returned valid XML 
-# :failure indicates there was some kind of error. You can then check the raw_response for details.
+response.success?
+# true indicates GIACT returned valid XML 
+# false indicates there was some kind of error. You can then check the raw_response for details.
 
 response.parsed_response
-#=> A hash of the inquiry results (the important stuff)
+#=> Hash of the data GIACT returned with keys: 
+# {
+#  item_reference_id: String,
+#  created_date: DateTime,
+#  verification_response: String,
+#  account_response_code: String,
+#  bank_name: String,
+#  account_added_date: DateTime,
+#  account_last_updated_date: DateTime,
+#  account_closed_date: DateTime,
+#  funds_confirmation_result: String,
+#  customer_response_code: String
+# }
 ```
 
 ## <a name="valid_customer">Valid Customer Attributes</a>
@@ -84,7 +95,7 @@ The following are valid customer fields. Please note that the required fields no
 * **state:** 2 characters, valid US state or Candian province *REQUIRED*
 * **zip_code:** 5 or 7 or 10 characters, valid US or Canadian postal code *REQUIRED*
 * **country:** Either 'US' or 'CA', defaults to 'US'
-* **phone_number:** 10 numeric characters, can't start with 0, no dashes *REQUIRED*
+* **phone_number:** 10 numeric characters, can't start with 0, no dashes
 * **tax_id:** Social security number or business ein *REQUIRED*
 * **date_of_birth:** Date, DateTime or an object that responds to :strftime *REQUIRED*
 * **drivers_license_number:** 1-28 numeric characters
