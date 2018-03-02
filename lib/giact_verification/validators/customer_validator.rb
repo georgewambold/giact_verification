@@ -61,8 +61,8 @@ CustomerValidator = Dry::Validation.Schema do
   required(:city)                     { filled? & size?(2..25) }
   required(:state)                    { filled? & size?(2) & serviced_state? }
   required(:zip_code)                 { filled? & number? & postal_code? }
-  optional(:country)                  { filled? & serviced_country? }
-  required(:phone_number)             { filled? & number? & phone_number_length? & phone_number_format? }
+  optional(:country)                  { none? | (filled? & serviced_country?) }
+  optional(:phone_number)             { none? | (number? & phone_number_length? & phone_number_format?) }
   required(:tax_id)                   { filled? & number? & (last_four_ssn_length? | ssn_or_ein_length?) }
   required(:date_of_birth)            { filled? & (date? | date_time? | respond_to_strftime?) }
   optional(:drivers_license_number)   { none? | drivers_license_length? }

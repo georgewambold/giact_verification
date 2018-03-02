@@ -13,9 +13,9 @@ module GiactVerification
 
     def call
       if successful_request?
-        OpenStruct.new({ body: giact_xml.inquiry_result, status: :success })
+        OpenStruct.new({ body: giact_xml.inquiry_result, success: true })
       else
-        OpenStruct.new({ body: {}, status: :failure })
+        OpenStruct.new({ body: {}, success: false })
       end
     end
 
