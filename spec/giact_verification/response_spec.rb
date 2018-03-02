@@ -21,10 +21,12 @@ describe GiactVerification::Response do
       expect(response.parsed_response).to eq('passed!')
     end
 
-    it 'has a status attribute' do
-      response = GiactVerification::Response.new(status: :giact_error)
+    describe ".success?" do
+      it 'has a success attribute' do
+        response = GiactVerification::Response.new(success: true)
 
-      expect(response.status).to eq(:giact_error)
+        expect(response.success?).to eq(true)
+      end
     end
   end
 end

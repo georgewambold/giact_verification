@@ -23,7 +23,7 @@ module GiactVerification
       GiactVerification::Response.new(
         raw_request:     body,
         raw_response:    response.body,
-        status:          parsed_response.status,
+        success:         parsed_response.success,
         parsed_response: parsed_response.body
       )
     end

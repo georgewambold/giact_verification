@@ -650,7 +650,7 @@ describe CustomerValidator do
 
       validator = CustomerValidator.call(params)
 
-      expect(validator.success?).to be(false)
+      expect(validator.success?).to be(true)
     end
 
     it 'can\'t be a blank string' do
@@ -705,12 +705,12 @@ describe CustomerValidator do
   end
 
   context 'phone_number' do
-    it 'can\'t be nil' do
+    it 'can be nil' do
       params = minimum_customer_params.merge({ phone_number: nil })
 
       validator = CustomerValidator.call(params)
 
-      expect(validator.success?).to be(false)
+      expect(validator.success?).to be(true)
     end
 
     it 'can\'t be a blank string' do
