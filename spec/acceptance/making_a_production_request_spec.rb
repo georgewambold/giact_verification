@@ -29,8 +29,8 @@ describe 'making a gAuthenticate request' do
   describe 'external request with mock GIACT server' do
     context 'response code 200' do
       it 'can parse the response' do
-        set_config!
-        stub_giact_requests!
+        set_production_config!
+        stub_production_requests!
         declined_customer = valid_customer.merge(first_name: 'Declined')
 
         response = GiactVerification::Authenticate.call(check: valid_check, customer: declined_customer)
@@ -44,8 +44,8 @@ describe 'making a gAuthenticate request' do
       end
 
       it 'parses an internal GIACT validation error response' do
-        set_config!
-        stub_giact_requests!
+        set_production_config!
+        stub_production_requests!
         error_customer = valid_customer.merge(first_name: 'Error')
 
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
@@ -59,8 +59,8 @@ describe 'making a gAuthenticate request' do
       end
 
       it 'parses an authentication error in the body' do
-        set_config!
-        stub_giact_requests!
+        set_production_config!
+        stub_production_requests!
         error_customer = valid_customer.merge(first_name: 'AuthError')
 
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
@@ -72,8 +72,8 @@ describe 'making a gAuthenticate request' do
       end
 
       it 'parses an unknown error the body' do
-        set_config!
-        stub_giact_requests!
+        set_production_config!
+        stub_production_requests!
         error_customer = valid_customer.merge(first_name: 'UnknownError')
 
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)
@@ -87,8 +87,8 @@ describe 'making a gAuthenticate request' do
 
     context 'response code not 2XX' do
       it 'can make a request and parse an HTTP 401 error' do
-        set_config!
-        stub_giact_requests!
+        set_production_config!
+        stub_production_requests!
         error_customer = valid_customer.merge(first_name: 'Blacklist')
 
         response = GiactVerification::Authenticate.call(check: valid_check, customer: error_customer)

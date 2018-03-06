@@ -3,8 +3,8 @@ require 'nori'
 
 describe 'making a giact request' do
   it 'passes check parameters from GiactVerification::Authenticate.call to the GIACT request' do
-    set_config!
-    stub_giact_requests!
+    set_production_config!
+    stub_production_requests!
 
     response = GiactVerification::Authenticate.call(check: full_check, customer: full_customer)
     parser = Nori.new(:advanced_typecasting => false, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
@@ -16,8 +16,8 @@ describe 'making a giact request' do
   end
 
   it 'passes customer parameters from GiactVerification::Authenticate.call to the GIACT request' do
-    set_config!
-    stub_giact_requests!
+    set_production_config!
+    stub_production_requests!
 
     response = GiactVerification::Authenticate.call(check: full_check, customer: full_customer)
     parser = Nori.new(:advanced_typecasting => false, :convert_tags_to => lambda { |tag| tag.snakecase.to_sym})
@@ -29,8 +29,8 @@ describe 'making a giact request' do
   end
 
   it 'upcases state and country parameters before they\'re substituted into the GIACT request' do
-    set_config!
-    stub_giact_requests!
+    set_production_config!
+    stub_production_requests!
 
     lowercase_value_customer = full_customer.merge(state: 'ma', country: 'us', drivers_license_state: 'ma')
 

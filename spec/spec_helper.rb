@@ -6,10 +6,11 @@ require 'support/fake_giact'
 require 'support/fake_sandbox_giact'
 require 'yaml'
 
-def set_config!
+def set_production_config!
   GiactVerification.configure do |config|
     config.api_username = 'user'
     config.api_password = 'pass'
+    config.giact_endpoint = :production
   end
 end
 
@@ -17,12 +18,10 @@ def reset_config!
   GiactVerification.instance_variable_set(:@configuration, nil)
 end
 
-def stub_giact_requests!
+def stub_production_requests!
   stub_request(:any, /api.giact.com/).to_rack(FakeGiact)
-  stub_request(:any, /sandbox.api.giact.com/).to_rack(FakeSandboxGiact)
 end
 
-RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+def stub_sandbox_requests!
+  stub_request(:any, /sandbox.api.giact.com/).to_rack(FakeSandboxGiact)
 end

@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-describe 'making a request to gaict\'s sandbox API' do
-  it 'can make sandbox requests' do
-    stub_sandbox_requests!
+describe 'making a stubbed request' do
+  it 'can make a successful request' do
     GiactVerification.configure do |config|
       config.api_username = 'foo'
       config.api_password = 'bar'
-      config.giact_endpoint = :sandbox
+      config.giact_endpoint = :stubbed
     end
+    declined_customer = valid_customer.merge(first_name: 'Declined')
 
     response = GiactVerification::Authenticate.call(
-      customer: valid_customer,
+      customer: declined_customer,
       check: valid_check
     )
 
-    expect(response.parsed_response[:verification_response]).to eq('SANDBOX')
+    expect(response.parsed_response[:verification_response]).to eq('Declined')
 
     reset_config!
   end
