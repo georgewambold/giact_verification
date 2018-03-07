@@ -2,6 +2,8 @@ require 'webmock'
 
 module GiactVerification
   class StubbedEndpoint
+    include WebMock::API
+
     attr_reader :type, :uri
 
     def initialize
@@ -10,11 +12,13 @@ module GiactVerification
     end
 
     def mount
+      WebMock.enable!
       @stubbed_request = WebMock.stub_request(:any, /fake.giact.com/).to_rack(GiactVerification::StubbedGiact)
     end
 
     def dismount
       WebMock.remove_request_stub(@stubbed_request)
+      WebMock.disable!
     end
   end
 end
