@@ -71,24 +71,21 @@ response.success?
 
 response.parsed_response
 #=> Hash of the data GIACT returned with keys: 
-# {
-#  item_reference_id: String,
-#  created_date: DateTime,
-#  verification_response: String,
-#  account_response_code: String,
-#  bank_name: String,
-#  account_added_date: DateTime,
-#  account_last_updated_date: DateTime,
-#  account_closed_date: DateTime,
-#  funds_confirmation_result: String,
-#  customer_response_code: String
-# }
+# If the response was successful the hash will be populated like this:
+ {
+  item_reference_id: String,
+  created_date: DateTime,
+  verification_response: String,
+  account_response_code: String,
+  bank_name: String,
+  account_added_date: DateTime,
+  account_last_updated_date: DateTime,
+  account_closed_date: DateTime,
+  funds_confirmation_result: String,
+  customer_response_code: String
+ }
+# If the response fails, the hash will be blank.
 ```
-## <a name="stubbed_responses">Stubbed Responses</a>
-Using `config.giact_endpoint = :stubbed` will return a set response based on the last name passed. These responses were built to be used in acceptance/integration tests. The built in responses are as follows:
-
-# put responses here ;) 
-
 ## <a name="valid_customer">Valid Customer Attributes</a>
 The following are valid customer fields. Please note that the required fields noted below only represent the bare minimum. Some GIACT services will require additional fields.
 
@@ -124,6 +121,14 @@ The following are valid check fields:
 * **check_number:** numeric, unspecified length
 * **check_amount:** float or float-like string (eg. '100.01')
 * **account_type:** one of the following: 'Checking', 'Savings' or 'Other'
+
+## <a name="stubbed_responses">Stubbed Responses</a>
+Using `config.giact_endpoint = :stubbed` will return a set response based on the last name passed in. These responses were built to be used in acceptance/integration tests. The built in responses were copied from the sandbox API and are as follows:
+1. `last_name: GiactError`    Will respond with a `verification_response` of `'Error'`
+2. `last_name: GiactDeclined` Will respond with a `verification_response` of `'Declined'`
+3. ANY OTHER LAST NAME Will respond with a `verification_response` of `'Pass'`
+
+The response is stubbed at a HTTP level, you'll still need to pass valid customer and check parameters to pass local validation.
 
 ## Contributing
 
