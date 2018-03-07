@@ -15,16 +15,16 @@ module GiactVerification
       customer =
         body['soap:Envelope']['soap:Body']['PostInquiry']['Inquiry']['Customer']
 
-      case customer['FirstName']
-      when 'Declined'
+      case customer['LastName']
+      when 'GiactDeclined'
         content_type 'text/xml'
         status 200
         body File.read(File.join(GiactVerification.root, 'lib', 'giact_verification', 'endpoints', 'support', 'bad_customer_response.xml'))
-      when 'Error'
+      when 'GiactError'
         content_type 'text/xml'
         status 200
         body File.read(File.join(GiactVerification.root, 'lib', 'giact_verification', 'endpoints', 'support', 'error_response.xml'))
-      when 'Pass'
+      else
         content_type 'text/xml'
         status 200
         body File.read(File.join(GiactVerification.root, 'lib', 'giact_verification', 'endpoints', 'support', 'good_customer_response.xml'))

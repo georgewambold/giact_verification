@@ -7,7 +7,7 @@ describe 'making a stubbed request' do
       config.api_password = 'bar'
       config.giact_endpoint = :stubbed
     end
-    declined_customer = valid_customer.merge(first_name: 'Declined')
+    declined_customer = valid_customer.merge(last_name: 'GiactDeclined')
 
     response = GiactVerification::Authenticate.call(
       customer: declined_customer,
