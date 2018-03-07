@@ -124,9 +124,9 @@ The following are valid check fields:
 
 ## <a name="stubbed_responses">Stubbed Responses</a>
 Using `config.giact_endpoint = :stubbed` will return a set response based on the last name passed in. These responses were built to be used in acceptance/integration tests. The built in responses were copied from the sandbox API and are as follows:
-1. `last_name: GiactError`    Will respond with a `verification_response` of `'Error'`
-2. `last_name: GiactDeclined` Will respond with a `verification_response` of `'Declined'`
-3. ANY OTHER LAST NAME Will respond with a `verification_response` of `'Pass'`
+1. `last_name: GiactError`    Will respond with an errored response (mimicking an error on GIACT's server)
+2. `last_name: GiactDeclined` Will respond with a declined response
+3. ANY OTHER LAST NAME        Will return a passed response
 
 The response is stubbed at a HTTP level, you'll still need to pass valid customer and check parameters to pass local validation.
 
