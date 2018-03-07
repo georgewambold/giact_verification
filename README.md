@@ -1,7 +1,7 @@
 # GiactVerification
 [![Build Status](https://travis-ci.org/georgewambold/giact_verification.svg?branch=master)](https://travis-ci.org/georgewambold/giact_verification)
 
-This gem only works for **Version 5.8.x** of GIACT's API
+**WARNING** This gem only works for **Version 5.8.x** of GIACT's API
 
 ## Installation
 
@@ -22,10 +22,13 @@ To set up your API keys, use the configuration helper like this:
 GiactVerification.configure do |config|
   config.api_username = 'foo'
   config.api_password = 'bar'
-  config.sandbox_mode = false
+  config.giact_endpoint = :production
 end
 ```
-Setting `config.sandbox_mode = true` will post all requests to GIACT's sandbox API.
+`giact_endpoint` options are `:production`, `:sandbox` and `:stubbed`. 
+- `:production` Will send requests to their production endpoint
+- `:sandbox` Will send requests to their sandbox endpoint
+- `:stubbed` Will stub requests locally (no network request) and return [one of a series of set responses](#stubbed_responses) based on the last name passed.
 
 ## gAuthenticate
 `GiactVerification::Authenticate` takes two arguements: a [valid customer](#valid_customer) and a [valid check](#valid_check).
@@ -56,14 +59,15 @@ GiactVerification::Authenticate.call(
 response = GiactVerification::Authenticate.call(customer: some_customer, check: some_check)
 
 response.raw_request
-#=> The XML sent to GIACT
+#=> The XML string sent to GIACT
 
 response.raw_response
-#=> The XML returned from GIACT
+#=> The XML string returned from GIACT
 
 response.success?
-# true indicates GIACT returned valid XML 
-# false indicates there was some kind of error. You can then check the raw_response for details.
+#=> A boolean value indicating if the request was successful
+# `true` indicates GIACT returned valid XML 
+# `false` indicates there was some kind of error. You can then check the raw_response for details.
 
 response.parsed_response
 #=> Hash of the data GIACT returned with keys: 
@@ -80,6 +84,10 @@ response.parsed_response
 #  customer_response_code: String
 # }
 ```
+## <a name="stubbed_responses">Stubbed Responses</a>
+Using `config.giact_endpoint = :stubbed` will return a set response based on the last name passed. These responses were built to be used in acceptance/integration tests. The built in responses are as follows:
+
+# put responses here ;) 
 
 ## <a name="valid_customer">Valid Customer Attributes</a>
 The following are valid customer fields. Please note that the required fields noted below only represent the bare minimum. Some GIACT services will require additional fields.
