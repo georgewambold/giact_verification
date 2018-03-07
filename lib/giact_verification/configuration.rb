@@ -2,27 +2,28 @@ require 'yaml'
 
 module GiactVerification
   class Configuration
+
     attr_accessor :api_username
     attr_accessor :api_password
-    attr_accessor :sandbox_mode
 
-    attr_reader :serviced_states, :serviced_countries, :valid_alternative_id_types, :valid_account_types
+    def initialize(args = {})
+      @giact_endpoint = args[:giact_endpoint] || GiactVerification::ProductionEndpoint.new
 
-    def initialize
-      @sandbox_mode = false
+      @giact_endpoint.mount
+    end
 
-      @serviced_countries         = YAML.load_file(GiactVerification.config_directory + '/serviced_countries.yml')
-      @serviced_states            = YAML.load_file(GiactVerification.config_directory + '/serviced_states.yml')
-      @valid_alternative_id_types = YAML.load_file(GiactVerification.config_directory + '/alternative_id_types.yml')
-      @valid_account_types        = YAML.load_file(GiactVerification.config_directory + '/valid_account_types.yml')
+    def giact_endpoint=(endpoint_type)
+      @giact_endpoint.dismount
+      @giact_endpoint = GiactVerification::EndpointFactory.for(type: endpoint_type)
+      @giact_endpoint.mount
     end
 
     def giact_uri
-      if sandbox_mode
-        URI.parse('https://sandbox.api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx').freeze
-      else
-        URI.parse('https://api.giact.com/verificationservices/v5/InquiriesWS-5-8.asmx').freeze
-      end
+      @giact_endpoint.uri
+    end
+
+    def giact_endpoint
+      @giact_endpoint.type
     end
 
     def invalid?
@@ -43,6 +44,24 @@ module GiactVerification
 
     def valid_account_type?(account_type)
       valid_account_types.include?(account_type)
+    end
+
+    private
+
+    def valid_account_types
+      @valid_account_types ||= YAML.load_file(GiactVerification.config_directory + '/valid_account_types.yml')
+    end
+
+    def valid_alternative_id_types
+      @valid_alternative_id_types ||= YAML.load_file(GiactVerification.config_directory + '/alternative_id_types.yml')
+    end
+
+    def serviced_states
+      @serviced_states ||= YAML.load_file(GiactVerification.config_directory + '/serviced_states.yml')
+    end
+
+    def serviced_countries
+      @serviced_countries ||= YAML.load_file(GiactVerification.config_directory + '/serviced_countries.yml')
     end
   end
 end

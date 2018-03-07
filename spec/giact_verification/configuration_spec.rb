@@ -21,39 +21,61 @@ describe GiactVerification::Configuration do
     reset_config!
   end
 
-  it 'stores a sandbox_mode attribute' do
-    config = GiactVerification::Configuration.new
-
-    config.sandbox_mode = true
-
-    expect(config.sandbox_mode).to eq(true)
-
-    reset_config!
-  end
-
-  it 'defaults the sandbox_mode attribute to false' do
-    config = GiactVerification::Configuration.new
-
-    expect(config.sandbox_mode).to eq(false)
-
-    reset_config!
-  end
-
-  describe '#giact_uri' do
-    it 'should return the real URI if not in sandbox mode' do
+  describe '#giact_endpoint' do
+    it 'defaults the giact_endpoint attribute to :production' do
       config = GiactVerification::Configuration.new
-      config.sandbox_mode = false
 
-      expect(config.giact_uri.host).to eq('api.giact.com')
+      expect(config.giact_endpoint).to eq(:production)
+
+      reset_config!
+    end
+    it 'mounts the endpoint on initialization' do
+      endpoint = double('endpoint')
+      allow(endpoint).to receive(:mount)
+
+      GiactVerification::Configuration.new(giact_endpoint: endpoint)
+
+      expect(endpoint).to have_received(:mount)
+
+      reset_config!
+    end
+  end
+
+  describe '#giact_endpoint=' do
+    it 'dismounts the initialized endpoint on setting a new endpoint' do
+      endpoint = double('endpoint', mount: nil)
+      allow(endpoint).to receive(:dismount)
+
+      config = GiactVerification::Configuration.new(giact_endpoint: endpoint)
+      config.giact_endpoint = :sandbox
+
+      expect(endpoint).to have_received(:dismount)
 
       reset_config!
     end
 
-    it 'should return the sandbox URI if in sandbox mode' do
+    it "mounts the new endpoint when it's set" do
+      endpoint = double('endpoint', mount: nil)
       config = GiactVerification::Configuration.new
-      config.sandbox_mode = true
+      allow(GiactVerification::EndpointFactory).to receive(:for)
+        .and_return(endpoint)
+      allow(endpoint).to receive(:mount)
 
-      expect(config.giact_uri.host).to eq('sandbox.api.giact.com')
+      config.giact_endpoint = :sandbox
+
+      expect(endpoint).to have_received(:mount)
+
+      reset_config!
+    end
+  end
+
+  describe '#giact_uri' do
+    it 'delgates the method to the current endpont' do
+      endpoint = double('endpoint', uri: URI.parse('https://some.api.endpoint.com'), mount: nil)
+
+      config = GiactVerification::Configuration.new(giact_endpoint: endpoint)
+
+      expect(config.giact_uri.host).to eq('some.api.endpoint.com')
 
       reset_config!
     end
