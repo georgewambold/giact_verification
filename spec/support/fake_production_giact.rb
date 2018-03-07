@@ -1,6 +1,6 @@
 require 'sinatra'
 
-class FakeGiact < Sinatra::Base
+class FakeProductionGiact < Sinatra::Base
 
   post '/verificationservices/v5/InquiriesWS-5-8.asmx' do
     request_body = Nori.new.parse(request.body.read)
