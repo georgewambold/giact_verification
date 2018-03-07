@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'pry'
 require 'giact_verification'
 require 'webmock/rspec'
-require 'support/fake_giact'
+require 'support/fake_production_giact'
 require 'support/fake_sandbox_giact'
 require 'yaml'
 
@@ -19,7 +19,7 @@ def reset_config!
 end
 
 def stub_production_requests!
-  stub_request(:any, /api.giact.com/).to_rack(FakeGiact)
+  stub_request(:any, /api.giact.com/).to_rack(FakeProductionGiact)
 end
 
 def stub_sandbox_requests!

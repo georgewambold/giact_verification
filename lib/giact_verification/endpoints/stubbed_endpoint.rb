@@ -10,7 +10,7 @@ module GiactVerification
     end
 
     def mount
-      @stubbed_request = WebMock.stub_request(:any, /fake.giact.com/).to_rack(FakeGiact)
+      @stubbed_request = WebMock.stub_request(:any, /fake.giact.com/).to_rack(GiactVerification::StubbedGiact)
     end
 
     def dismount
