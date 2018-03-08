@@ -5,6 +5,7 @@
     <PostInquiryResponse xmlns="http://api.giact.com/verificationservices/v5">
       <PostInquiryResult>
         <ItemReferenceId>5000001888</ItemReferenceId>
+        <CreatedDate>2017-02-03T11:35:43.242182-06:00</CreatedDate>
         <VerificationResponse>Declined</VerificationResponse>
         <AccountResponseCode>GN05</AccountResponseCode>
         <AccountClosedDate xsi:nil="true" />
