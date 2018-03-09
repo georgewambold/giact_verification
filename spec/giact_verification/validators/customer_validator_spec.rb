@@ -361,12 +361,12 @@ describe CustomerValidator do
       expect(validator.success?).to be(true)
     end
 
-    it 'can\'t be a blank string' do
+    it 'can be a blank string' do
       params = minimum_customer_params.merge({ address_line2: '' })
 
       validator = CustomerValidator.call(params)
 
-      expect(validator.success?).to be(false)
+      expect(validator.success?).to be(true)
     end
 
     it 'can be 1 character' do
