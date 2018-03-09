@@ -5,25 +5,10 @@ module GiactVerification
 
     attr_accessor :api_username
     attr_accessor :api_password
+    attr_accessor :giact_endpoint
 
     def initialize(args = {})
-      @giact_endpoint = args[:giact_endpoint] || GiactVerification::ProductionEndpoint.new
-
-      @giact_endpoint.mount
-    end
-
-    def giact_endpoint=(endpoint_type)
-      @giact_endpoint.dismount
-      @giact_endpoint = GiactVerification::EndpointFactory.for(type: endpoint_type)
-      @giact_endpoint.mount
-    end
-
-    def giact_uri
-      @giact_endpoint.uri
-    end
-
-    def giact_endpoint
-      @giact_endpoint.type
+      @giact_endpoint = :production
     end
 
     def invalid?

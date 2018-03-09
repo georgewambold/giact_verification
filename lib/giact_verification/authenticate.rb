@@ -17,7 +17,7 @@ module GiactVerification
         raise GiactVerification::ArgumentError, param_errors
       end
 
-      GiactVerification::Request.call(body: request_body)
+      RequestCoordinator.call(body: request_body)
     end
 
     private

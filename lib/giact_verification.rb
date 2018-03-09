@@ -19,7 +19,7 @@ module GiactVerification
       :servicing?,
       :accepts_id_type?,
       :valid_account_type?,
-      :giact_uri
+      :giact_endpoint
   end
 
   def self.ready_for_request?
@@ -48,18 +48,16 @@ require "giact_verification/configuration"
 require "giact_verification/decorators/decorate_hash"
 require "giact_verification/decorators/giact_soap_decorator"
 require "giact_verification/extract_inquiry_result"
-require "giact_verification/endpoints/endpoint"
-require "giact_verification/endpoints/production_endpoint"
-require "giact_verification/endpoints/sandbox_endpoint"
-require "giact_verification/endpoints/stubbed_endpoint"
-require "giact_verification/endpoints/endpoint_factory"
-require "giact_verification/endpoints/support/stubbed_giact"
 require "giact_verification/errors"
 require "giact_verification/inquiry_template_renderer"
 require "giact_verification/models/check"
 require "giact_verification/models/customer"
 require "giact_verification/models/giact_xml"
-require "giact_verification/request"
+require "giact_verification/requests/request_coordinator"
+require "giact_verification/requests/requester_factory"
+require "giact_verification/requests/production_requester"
+require "giact_verification/requests/sandbox_requester"
+require "giact_verification/requests/stubbed_requester"
 require "giact_verification/response"
 require "giact_verification/response_parser"
 require "giact_verification/version"
