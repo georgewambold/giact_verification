@@ -1,3 +1,6 @@
+require 'uri'
+require 'net/http'
+
 module GiactVerification
   class SandboxRequester
 
