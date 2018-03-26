@@ -30,13 +30,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "dry-validation", "~> 0.11.1"
-  spec.add_runtime_dependency "nori", "~> 2.6.0"
-  spec.add_runtime_dependency "nokogiri", "~> 1.8.2"
+  spec.add_runtime_dependency "nori", "~> 2.6.0", ">= 2.6.0"
+  spec.add_runtime_dependency "nokogiri", "~> 1.8.2", '>= 1.8.2'
 
-  spec.add_development_dependency "bundler", "~> 1.16.1"
-  spec.add_development_dependency "rake", "~> 12.3.0"
-  spec.add_development_dependency "webmock", "~> 3.3.0"
-  spec.add_development_dependency "rspec", "~> 3.7.0"
+  spec.add_development_dependency "bundler", "~> 1.16", ">= 1.16.1"
+  spec.add_development_dependency "rake", "~> 12.3.0", ">= 12.3.0"
+  spec.add_development_dependency "webmock", "~> 3.3.0", ">= 3.3.0"
+  spec.add_development_dependency "rspec", "~> 3.7.0", ">= 3.7.0"
   spec.add_development_dependency "pry", "~> 0.11.3"
-  spec.add_development_dependency "sinatra", "~> 2.0.0"
+  spec.add_development_dependency "sinatra", "~> 2.0.0", ">= 2.0.0"
 end
