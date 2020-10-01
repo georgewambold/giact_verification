@@ -30,7 +30,7 @@ end
 - `:sandbox` Will send requests to their sandbox endpoint
 - `:stubbed` Will stub requests locally (no network request) and return [one of a series of set responses](#stubbed_responses) based on the last name passed.
 
-## gAuthenticate
+## Authenticate
 `GiactVerification::Authenticate` takes two arguements: a [valid customer](#valid_customer) and a [valid check](#valid_check).
 
 ```ruby
